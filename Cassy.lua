@@ -3,7 +3,7 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 
 -- // Create Main Window
 local Window = WindUI:CreateWindow({
-    Title = "Cassy - Diesel N' Steel",
+    Title = "Cutesy Cassy",
     Icon = "star",
     Author = "@Cassy",
     Folder = "VoltexScriptsFolder",
