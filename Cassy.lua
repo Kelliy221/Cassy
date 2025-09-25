@@ -33,7 +33,7 @@ Window:EditOpenButton({
 })
 
 -- // Tabs
-local Information = Window:Tab({Title = "Information", Icon = "info", Desc = "1. Spawn Jeep\n 2. Go to Terminal\n 3. Queue and wait for Customer\n 4. Take money\n 5. Start the Autofarm"})
+local Information = Window:Tab({Title = "Information", Icon = "info"})
 local AutoFarmTab = Window:Tab({Title = "Auto Farm", Icon = "play"})
 
 -- // Services
