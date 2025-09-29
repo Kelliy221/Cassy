@@ -12,15 +12,8 @@ local function notify(title, text, duration)
     end)
 end
 
-notify("😍 PRETTY CASSY 😊", "PARA KAY CASSY LANG TO!😊", 5)
+notify("😍 PRETTY CASSY 😊", "Para kay Cassy lang to!!!", 5)
 
-recieveExp:FireServer({
-    Value = 3,
-    Password = 229271937
-})
-notify("RecieveExp", "EXP EXP!!!", 3)
-
--- // GUI
 local player = game:GetService("Players").LocalPlayer
 local ScreenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
 
@@ -32,30 +25,45 @@ Frame.Active = true
 Frame.Draggable = true
 Frame.Parent = ScreenGui
 
-local Title = Instance.new("TextLabel", Frame)
-Title.Size = UDim2.new(1, 0, 0, 30)
-Title.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
-Title.Text = "😍 PRETTY CASSY 😊" 
-Title.TextColor3 = Color3.new(1, 1, 1)
-
 local coinEnabled = false
 local CoinBtn = Instance.new("TextButton", Frame)
 CoinBtn.Size = UDim2.new(0.9, 0, 0, 40)
-CoinBtn.Position = UDim2.new(0.05, 0, 0.35, 0)
-CoinBtn.Text = "Auto Paldo"
+CoinBtn.Position = UDim2.new(0.05, 0, 0.15, 0)
+CoinBtn.Text = "PINDOT PARA CASH"
 CoinBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
 CoinBtn.TextColor3 = Color3.new(1, 1, 1)
 
 CoinBtn.MouseButton1Click:Connect(function()
     coinEnabled = not coinEnabled
     if coinEnabled then
-        CoinBtn.Text = "Pahinga"
+        CoinBtn.Text = "AUTO PALDO"
         CoinBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
-        notify("RecieveCoin", "Paldo Paldo!!", 3)
+        notify("CASHFARM", "PALDO NANAMAN!", 3)
     else
-        CoinBtn.Text = "Auto Paldo"
+        CoinBtn.Text = "PAHINGA"
         CoinBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
-        notify("RecieveCoin", "Pahinga muna", 3)
+        notify("CASHFARM", "PAHINGA", 3)
+    end
+end)
+
+local expEnabled = false
+local ExpBtn = Instance.new("TextButton", Frame)
+ExpBtn.Size = UDim2.new(0.9, 0, 0, 40)
+ExpBtn.Position = UDim2.new(0.05, 0, 0.55, 0)
+ExpBtn.Text = "PINDOT PARA EXP"
+ExpBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
+ExpBtn.TextColor3 = Color3.new(1, 1, 1)
+
+ExpBtn.MouseButton1Click:Connect(function()
+    expEnabled = not expEnabled
+    if expEnabled then
+        ExpBtn.Text = "EXP FARM"
+        ExpBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+        notify("Exp FARM", "EXP EXP!!!", 3)
+    else
+        ExpBtn.Text = "STOP EXP"
+        ExpBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
+        notify("EXP FARM", "NO MORE EXP", 3)
     end
 end)
 
@@ -66,6 +74,18 @@ task.spawn(function()
                 Password = 5486964568496,
                 Value = 300,
                 PassengerValues = workspace:WaitForChild("Jeepnies"):WaitForChild("EVladSend2"):WaitForChild("PassengerValues")
+            })
+        end
+        task.wait(0.25)
+    end
+end)
+
+task.spawn(function()
+    while true do
+        if expEnabled then
+            recieveExp:FireServer({
+                Value = 3,
+                Password = 229271937
             })
         end
         task.wait(0.25)
