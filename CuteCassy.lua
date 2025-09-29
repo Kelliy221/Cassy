@@ -7,10 +7,18 @@ local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 local RecieveCoin = Remotes:WaitForChild("RecieveCoin")
 local RecieveExp = Remotes:WaitForChild("RecieveExp")
 
+local PassengerValues = workspace:WaitForChild("Jeepnies"):WaitForChild("player.Name"):WaitForChild("PassengerValues")
+
+local function formatTime(sec)
+    local minutes = math.floor(sec / 60)
+    local secs = math.floor(sec % 60)
+    return string.format("%02d:%02d", minutes, secs)
+end
+
 pcall(function()
     StarterGui:SetCore("SendNotification", {
         Title = "😍 PRETTY CASSY 😊",
-        Text = "Script Loaded Successfully ❤️",
+        Text = "para kay Cassy lang ito!!!",
         Duration = 5
     })
 end)
@@ -22,10 +30,11 @@ local UICorner = Instance.new("UICorner")
 local UIStroke = Instance.new("UIStroke")
 local CashToggle = Instance.new("TextButton")
 local ExpToggle = Instance.new("TextButton")
+local CashTimerLabel = Instance.new("TextLabel")
 
 ScreenGui.Parent = game.CoreGui
 
-Frame.Size = UDim2.new(0, 220, 0, 150)
+Frame.Size = UDim2.new(0, 220, 0, 180)
 Frame.Position = UDim2.new(0.35, 0, 0.35, 0)
 Frame.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
 Frame.Active = true
@@ -56,8 +65,18 @@ CashToggle.Font = Enum.Font.GothamBold
 CashToggle.TextSize = 14
 CashToggle.Parent = Frame
 
+CashTimerLabel.Size = UDim2.new(0, 200, 0, 25)
+CashTimerLabel.Position = UDim2.new(0, 10, 0, 85)
+CashTimerLabel.BackgroundTransparency = 1
+CashTimerLabel.Text = "Timer: 00:00"
+CashTimerLabel.Font = Enum.Font.Gotham
+CashTimerLabel.TextSize = 14
+CashTimerLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+CashTimerLabel.TextXAlignment = Enum.TextXAlignment.Left
+CashTimerLabel.Parent = Frame
+
 ExpToggle.Size = UDim2.new(0, 200, 0, 40)
-ExpToggle.Position = UDim2.new(0, 10, 0, 90)
+ExpToggle.Position = UDim2.new(0, 10, 0, 115)
 ExpToggle.Text = "Exp Farm: OFF"
 ExpToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
 ExpToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
@@ -67,6 +86,7 @@ ExpToggle.Parent = Frame
 
 local CashFarming = false
 local ExpFarming = false
+local CashTime = 0
 
 CashToggle.MouseButton1Click:Connect(function()
 	CashFarming = not CashFarming
@@ -75,14 +95,18 @@ CashToggle.MouseButton1Click:Connect(function()
 		CashToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
 		task.spawn(function()
 			while CashFarming do
+				CashTime += 0.25
+				CashTimerLabel.Text = "Timer: " .. formatTime(CashTime)
+
 				local args = {
 					{
 						Password = 5486964568496,
 						Value = 300,
-						PassengerValues = workspace:WaitForChild("Jeepnies"):WaitForChild("envy18sha"):WaitForChild("PassengerValues")
+						PassengerValues = PassengerValues
 					}
 				}
 				RecieveCoin:FireServer(unpack(args))
+
 				task.wait(0.25)
 			end
 		end)
@@ -113,63 +137,4 @@ ExpToggle.MouseButton1Click:Connect(function()
 		ExpToggle.Text = "Exp Farm: OFF"
 		ExpToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
 	end
-end)    coinEnabled = not coinEnabled
-    if coinEnabled then
-        CoinBtn.Text = "AUTO PALDO"
-        CoinBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
-        notify("CASHFARM", "PALDO NANAMAN!", 3)
-    else
-        CoinBtn.Text = "PAHINGA"
-        CoinBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
-        notify("CASHFARM", "PAHINGA", 3)
-    end
-end)
-
-local expEnabled = false
-local ExpBtn = Instance.new("TextButton", Frame)
-ExpBtn.Size = UDim2.new(0.9, 0, 0, 40)
-ExpBtn.Position = UDim2.new(0.05, 0, 0.55, 0)
-ExpBtn.Text = "PINDOT PARA EXP"
-ExpBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
-ExpBtn.TextColor3 = Color3.new(1, 1, 1)
-
-ExpBtn.MouseButton1Click:Connect(function()
-    expEnabled = not expEnabled
-    if expEnabled then
-        ExpBtn.Text = "EXP FARM"
-        ExpBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
-        notify("Exp FARM", "EXP EXP!!!", 3)
-    else
-        ExpBtn.Text = "STOP EXP"
-        ExpBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
-        notify("EXP FARM", "NO MORE EXP", 3)
-    end
-end)
-
-task.spawn(function()
-    while true do
-        if coinEnabled then
-            local args = {
-                {
-                    Password = 5486964568496,
-                    Value = 300,
-                    PassengerValues = workspace:WaitForChild("Jeepnies"):WaitForChild("EVladSend2"):WaitForChild("PassengerValues")
-                }
-            }
-            recieveCoin:FireServer(unpack(args))
-        end
-        task.wait(0.25)
-    end
-end)
-
-task.spawn(function()
-    while true do
-        if expEnabled then
-            recieveExp:FireServer({
-                Value = 3,
-                Password = 229271937
-            })
-        end
-        task.wait(0.25)
-    end
 end)
