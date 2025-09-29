@@ -1,5 +1,5 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("HAPPY BIRTHDAY CASSY!!", "Ocean")
+local Window = Library.CreateLib("CASSY PRETTY 😍", "Ocean")
 
 local ExpFarmTab = Window:NewTab("ExpFarm")
 local Autofarm = AutoFarmTab:NewSection("AutoFarm")
