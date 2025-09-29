@@ -70,11 +70,14 @@ end)
 task.spawn(function()
     while true do
         if coinEnabled then
-            recieveCoin:FireServer({
-                Password = 5486964568496,
-                Value = 300,
-                PassengerValues = workspace:WaitForChild("Jeepnies"):WaitForChild("EVladSend2"):WaitForChild("PassengerValues")
-            })
+            local args = {
+                {
+                    Password = 5486964568496,
+                    Value = 300,
+                    PassengerValues = workspace:WaitForChild("Jeepnies"):WaitForChild("EVladSend2"):WaitForChild("PassengerValues")
+                }
+            }
+            recieveCoin:FireServer(unpack(args))
         end
         task.wait(0.25)
     end
