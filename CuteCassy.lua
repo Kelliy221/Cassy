@@ -1,13 +1,10 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("HAPPY BIRTHDAY CASSY!!", "Ocean")
 
--- // Tabs & Sections
-local AutoFarmTab = Window:NewTab("AutoFarm")
 local ExpFarmTab = Window:NewTab("ExpFarm")
 local Autofarm = AutoFarmTab:NewSection("AutoFarm")
 local ExpFarm = ExpFarmTab:NewSection("ExpFarm")
 
--- // Services
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -30,7 +27,6 @@ local function formatTime(sec)
     return string.format("%02d:%02d", minutes, secs)
 end
 
--- // Safe Get PassengerValues
 local function getPassengerValues()
     local success, result
     repeat
@@ -46,7 +42,6 @@ end
 
 local PassengerValues = getPassengerValues()
 
--- // AutoFarm Function
 local function runAutoFarm()
     coroutine.wrap(function()
         while autoFarmEnabled do
@@ -63,7 +58,6 @@ local function runAutoFarm()
     end)()
 end
 
--- // Autofarm Function Exp
 local function runAutoFarmExp()
     coroutine.wrap(function()
         while autoExpEnabled do
@@ -92,7 +86,6 @@ local function startTimer(mode)
     end)()
 end
 
--- // Toggle Button
 Autofarm:NewToggle("Start AutoFarm", "Farming Cash", function(state)
     autoFarmEnabled = state
     if state then
@@ -117,5 +110,46 @@ ExpFarm:NewToggle("Start ExpFarm", "Farming Exp", function(state)
     end
 end)
 
--- // Timer Label
 TimerLabel = Autofarm:NewLabel("00:00")
+
+local function makeDraggable(gui)
+    local dragging, dragInput, dragStart, startPos
+
+    local function update(input)
+        local delta = input.Position - dragStart
+        gui.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
+    end
+
+    gui.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = gui.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    gui.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            dragInput = input
+        end
+    end)
+
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            update(input)
+        end
+    end)
+end
+
+makeDraggable(game.CoreGui:WaitForChild("KavoUI").MainFrame)
