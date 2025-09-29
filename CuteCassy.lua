@@ -1,5 +1,5 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("HAPPY BIRTHDAY CASSY!!", "Ocean")
+local Window = Library.CreateLib(PRETTY CASSY 😍", "BloodTheme")
 
 -- // Tabs & Sections
 local AutoFarmTab = Window:NewTab("AutoFarm")
@@ -19,7 +19,7 @@ local expRemote = ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Reciev
 -- // Variables
 local autoFarmEnabled = false
 local autoExpEnabled = false
-local fireDelay = 0.21
+local fireDelay = 0.25
 local seconds = 0
 local TimerLabel
 
