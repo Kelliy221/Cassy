@@ -1,40 +1,119 @@
-local remotes = game:GetService("ReplicatedStorage"):WaitForChild("Remotes")
-local recieveExp = remotes:WaitForChild("RecieveExp")
-local recieveCoin = remotes:WaitForChild("RecieveCoin")
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local StarterGui = game:GetService("StarterGui")
+local LocalPlayer = Players.LocalPlayer
 
-local function notify(title, text, duration)
-    pcall(function()
-        game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = title,
-            Text = text,
-            Duration = duration or 3
-        })
-    end)
-end
+local Remotes = ReplicatedStorage:WaitForChild("Remotes")
+local RecieveCoin = Remotes:WaitForChild("RecieveCoin")
+local RecieveExp = Remotes:WaitForChild("RecieveExp")
 
-notify("😍 PRETTY CASSY 😊", "Para kay Cassy lang to!!!", 5)
+pcall(function()
+    StarterGui:SetCore("SendNotification", {
+        Title = "😍 PRETTY CASSY 😊",
+        Text = "Script Loaded Successfully ❤️",
+        Duration = 5
+    })
+end)
 
-local player = game:GetService("Players").LocalPlayer
-local ScreenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-
+local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 240, 0, 160)
-Frame.Position = UDim2.new(0.3, 0, 0.3, 0)
-Frame.BackgroundColor3 = Color3.fromRGB(60, 0, 0)
+local TitleBar = Instance.new("TextLabel")
+local UICorner = Instance.new("UICorner")
+local UIStroke = Instance.new("UIStroke")
+local CashToggle = Instance.new("TextButton")
+local ExpToggle = Instance.new("TextButton")
+
+ScreenGui.Parent = game.CoreGui
+
+Frame.Size = UDim2.new(0, 220, 0, 150)
+Frame.Position = UDim2.new(0.35, 0, 0.35, 0)
+Frame.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
 Frame.Active = true
 Frame.Draggable = true
 Frame.Parent = ScreenGui
 
-local coinEnabled = false
-local CoinBtn = Instance.new("TextButton", Frame)
-CoinBtn.Size = UDim2.new(0.9, 0, 0, 40)
-CoinBtn.Position = UDim2.new(0.05, 0, 0.15, 0)
-CoinBtn.Text = "PINDOT PARA CASH"
-CoinBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
-CoinBtn.TextColor3 = Color3.new(1, 1, 1)
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = Frame
 
-CoinBtn.MouseButton1Click:Connect(function()
-    coinEnabled = not coinEnabled
+UIStroke.Color = Color3.fromRGB(255, 0, 0)
+UIStroke.Thickness = 2
+UIStroke.Parent = Frame
+
+TitleBar.Size = UDim2.new(1, 0, 0, 30)
+TitleBar.BackgroundTransparency = 1
+TitleBar.Text = "😍 PRETTY CASSY 😊"
+TitleBar.Font = Enum.Font.GothamBold
+TitleBar.TextSize = 16
+TitleBar.TextColor3 = Color3.fromRGB(255, 200, 200)
+TitleBar.Parent = Frame
+
+CashToggle.Size = UDim2.new(0, 200, 0, 40)
+CashToggle.Position = UDim2.new(0, 10, 0, 40)
+CashToggle.Text = "Cash Farm: OFF"
+CashToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+CashToggle.Font = Enum.Font.GothamBold
+CashToggle.TextSize = 14
+CashToggle.Parent = Frame
+
+ExpToggle.Size = UDim2.new(0, 200, 0, 40)
+ExpToggle.Position = UDim2.new(0, 10, 0, 90)
+ExpToggle.Text = "Exp Farm: OFF"
+ExpToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+ExpToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+ExpToggle.Font = Enum.Font.GothamBold
+ExpToggle.TextSize = 14
+ExpToggle.Parent = Frame
+
+local CashFarming = false
+local ExpFarming = false
+
+CashToggle.MouseButton1Click:Connect(function()
+	CashFarming = not CashFarming
+	if CashFarming then
+		CashToggle.Text = "Cash Farm: ON"
+		CashToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+		task.spawn(function()
+			while CashFarming do
+				local args = {
+					{
+						Password = 5486964568496,
+						Value = 300,
+						PassengerValues = workspace:WaitForChild("Jeepnies"):WaitForChild("envy18sha"):WaitForChild("PassengerValues")
+					}
+				}
+				RecieveCoin:FireServer(unpack(args))
+				task.wait(0.25)
+			end
+		end)
+	else
+		CashToggle.Text = "Cash Farm: OFF"
+		CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+	end
+end)
+
+ExpToggle.MouseButton1Click:Connect(function()
+	ExpFarming = not ExpFarming
+	if ExpFarming then
+		ExpToggle.Text = "Exp Farm: ON"
+		ExpToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+		task.spawn(function()
+			while ExpFarming do
+				local args = {
+					{
+						Value = 3,
+						Password = 229271937
+					}
+				}
+				RecieveExp:FireServer(unpack(args))
+				task.wait(0.25)
+			end
+		end)
+	else
+		ExpToggle.Text = "Exp Farm: OFF"
+		ExpToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+	end
+end)    coinEnabled = not coinEnabled
     if coinEnabled then
         CoinBtn.Text = "AUTO PALDO"
         CoinBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
