@@ -16,7 +16,7 @@ local expRemote = ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Reciev
 -- // Variables
 local autoFarmEnabled = false
 local autoExpEnabled = false
-local fireDelay = 0.21
+local fireDelay = 0.25
 local seconds = 0
 local TimerLabel
 
