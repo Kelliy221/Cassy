@@ -1,5 +1,5 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib(PRETTY CASSY 😍", "BloodTheme")
+local Window = Library.CreateLib("PRETTY CASSY 😍", "BloodTheme")
 
 -- // Tabs & Sections
 local AutoFarmTab = Window:NewTab("AutoFarm")
