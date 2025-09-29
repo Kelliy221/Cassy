@@ -49,11 +49,11 @@ CoinBtn.TextColor3 = Color3.new(1, 1, 1)
 CoinBtn.MouseButton1Click:Connect(function()
     coinEnabled = not coinEnabled
     if coinEnabled then
-        CoinBtn.Text = "Auto Paldo"
+        CoinBtn.Text = "Pahinga"
         CoinBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
         notify("RecieveCoin", "Paldo Paldo!!", 3)
     else
-        CoinBtn.Text = "Pahinga"
+        CoinBtn.Text = "Auto Paldo"
         CoinBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
         notify("RecieveCoin", "Pahinga muna", 3)
     end
