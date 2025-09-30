@@ -1,3 +1,4 @@
+-- // KAY CASSY LANG TO!
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local StarterGui = game:GetService("StarterGui")
