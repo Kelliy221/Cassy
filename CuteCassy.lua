@@ -30,7 +30,7 @@ pcall(function()
     StarterGui:SetCore("SendNotification", {
         Title = "😍 PRETTY CASSY 😊",
         Text = "para kay Cassy lang ito!!!",
-        Duration = 5
+        Duration = 8
     })
 end)
 
@@ -47,7 +47,7 @@ ScreenGui.Parent = game.CoreGui
 
 local Sound = Instance.new("Sound")
 Sound.SoundId = "rbxassetid://7361257051"
-Sound.Volume = 3
+Sound.Volume = 2
 Sound.PlayOnRemove = true
 Sound.Parent = game:GetService("SoundService")
 Sound:Destroy()
