@@ -7,6 +7,12 @@ local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 local RecieveCoin = Remotes:WaitForChild("RecieveCoin")
 local RecieveExp = Remotes:WaitForChild("RecieveExp")
 
+local function formatTime(sec)
+    local minutes = math.floor(sec / 60)
+    local secs = math.floor(sec % 60)
+    return string.format("%02d:%02d", minutes, secs)
+end
+
 local function getPassengerValues()
     local success, result
     repeat
@@ -18,14 +24,6 @@ local function getPassengerValues()
         task.wait(0.5)
     until success and result
     return result
-end
-
-local PassengerValues = getPassengerValues()
-
-local function formatTime(sec)
-    local minutes = math.floor(sec / 60)
-    local secs = math.floor(sec % 60)
-    return string.format("%02d:%02d", minutes, secs)
 end
 
 pcall(function()
@@ -77,6 +75,7 @@ CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
 CashToggle.Font = Enum.Font.GothamBold
 CashToggle.TextSize = 14
 CashToggle.Parent = Frame
+CashToggle.Visible = false
 
 CashTimerLabel.Size = UDim2.new(0, 200, 0, 25)
 CashTimerLabel.Position = UDim2.new(0, 10, 0, 85)
@@ -87,6 +86,7 @@ CashTimerLabel.TextSize = 14
 CashTimerLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 CashTimerLabel.TextXAlignment = Enum.TextXAlignment.Left
 CashTimerLabel.Parent = Frame
+CashTimerLabel.Visible = false
 
 ExpToggle.Size = UDim2.new(0, 200, 0, 40)
 ExpToggle.Position = UDim2.new(0, 10, 0, 115)
@@ -102,55 +102,32 @@ local ExpFarming = false
 local CashTime = 0
 local fireDelay = 0.25
 
-local CashCoroutine
-local function runCashFarm()
-    if CashCoroutine and coroutine.status(CashCoroutine) ~= "dead" then return end
-    CashCoroutine = coroutine.create(function()
-        while CashFarming do
-            CashTime += fireDelay
-            CashTimerLabel.Text = "Timer: " .. formatTime(CashTime)
-
-            local args = {{
-                Password = 5486964568496,
-                Value = 300,
-                PassengerValues = PassengerValues
-            }}
-            pcall(function()
-                RecieveCoin:FireServer(unpack(args))
-            end)
-            task.wait(fireDelay)
-        end
-    end)
-    coroutine.resume(CashCoroutine)
-end
-
-local ExpCoroutine
-local function runExpFarm()
-    if ExpCoroutine and coroutine.status(ExpCoroutine) ~= "dead" then return end
-    ExpCoroutine = coroutine.create(function()
-        while ExpFarming do
-            local args = {{
-                Value = 3,
-                Password = 229271937
-            }}
-            pcall(function()
-                RecieveExp:FireServer(unpack(args))
-            end)
-            task.wait(fireDelay)
-        end
-    end)
-    coroutine.resume(ExpCoroutine)
-end
-
 CashToggle.MouseButton1Click:Connect(function()
     CashFarming = not CashFarming
     if CashFarming then
         CashToggle.Text = "Cash Farm: ON"
         CashToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-        runCashFarm()
+        CashTimerLabel.Visible = true
+        task.spawn(function()
+            local PassengerValues = getPassengerValues()
+            while CashFarming and PassengerValues.Parent do
+                CashTime += fireDelay
+                CashTimerLabel.Text = "Timer: " .. formatTime(CashTime)
+                local args = {{
+                    Password = 5486964568496,
+                    Value = 300,
+                    PassengerValues = PassengerValues
+                }}
+                pcall(function()
+                    RecieveCoin:FireServer(unpack(args))
+                end)
+                task.wait(fireDelay)
+            end
+        end)
     else
         CashToggle.Text = "Cash Farm: OFF"
         CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+        CashTimerLabel.Visible = false
     end
 end)
 
@@ -159,9 +136,50 @@ ExpToggle.MouseButton1Click:Connect(function()
     if ExpFarming then
         ExpToggle.Text = "Exp Farm: ON"
         ExpToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-        runExpFarm()
+        task.spawn(function()
+            while ExpFarming do
+                local args = {{
+                    Value = 3,
+                    Password = 229271937
+                }}
+                pcall(function()
+                    RecieveExp:FireServer(unpack(args))
+                end)
+                task.wait(0.25)
+            end
+        end)
     else
         ExpToggle.Text = "Exp Farm: OFF"
         ExpToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
     end
+end)
+
+local function watchJeep()
+    local function hookCharacter(char)
+        local humanoid = char:WaitForChild("Humanoid", 5)
+        if humanoid then
+            humanoid.Seated:Connect(function(active, seat)
+                if active and seat and seat:IsDescendantOf(workspace:WaitForChild("Jeepnies")) then
+                    CashToggle.Visible = true
+                else
+                    CashToggle.Visible = false
+                    CashTimerLabel.Visible = false
+                    CashFarming = false
+                    CashToggle.Text = "Cash Farm: OFF"
+                    CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+                end
+            end)
+        end
+    end
+    if LocalPlayer.Character then
+        hookCharacter(LocalPlayer.Character)
+    end
+    LocalPlayer.CharacterAdded:Connect(hookCharacter)
+end
+
+task.spawn(watchJeep)
+
+LocalPlayer.CharacterAdded:Connect(function()
+    CashTime = 0
+    CashTimerLabel.Text = "Timer: 00:00"
 end)
