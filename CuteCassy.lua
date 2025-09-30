@@ -132,6 +132,22 @@ CashToggle.MouseButton1Click:Connect(function()
             while CashFarming and PassengerValues.Parent do
                 CashTime += fireDelay
                 CashTimerLabel.Text = "Timer: " .. formatTime(CashTime)
+
+                if CashTime >= 850 then
+                    CashFarming = false
+                    CashToggle.Text = "Cash Farm: OFF"
+                    CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+                    CashTimerLabel.Visible = false
+
+                    for i = 5,1,-1 do
+                        CashTimerLabel.Visible = true
+                        CashTimerLabel.Text = "Disconnecting in " .. i .. "s"
+                        task.wait(1)
+                    end
+                    LocalPlayer:Kick("Autofarm is Done. Disconnecting")
+                    break
+                end
+
                 local args = {{
                     Password = 5486964568496,
                     Value = 300,
