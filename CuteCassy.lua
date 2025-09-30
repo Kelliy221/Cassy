@@ -98,13 +98,14 @@ ExpToggle.TextSize = 14
 ExpToggle.Parent = Frame
 
 local ExpNote = Instance.new("TextLabel")
-ExpNote.Size = UDim2.new(1, 0, 0, 20)
-ExpNote.Position = UDim2.new(0, 0, 0, 110) -- just below ExpFarm toggle
+ExpNote.Size = UDim2.new(1, 0, 0, 15)
+ExpNote.Position = UDim2.new(0, 0, 1, -20) -- stick it near bottom
 ExpNote.BackgroundTransparency = 1
-ExpNote.Text = "Not for sale, Only for Cassy!!"
-ExpNote.TextColor3 = Color3.fromRGB(255, 255, 255)
-ExpNote.TextScaled = true
-ExpNote.Font = Enum.Font.SourceSansBold
+ExpNote.Text = "Not for sale. Only for Cassy!!"
+ExpNote.TextColor3 = Color3.fromRGB(180, 180, 180)
+ExpNote.TextScaled = false
+ExpNote.Font = Enum.Font.SourceSansItalic
+ExpNote.TextSize = 14
 ExpNote.Parent = Frame
 
 local CashFarming = false
