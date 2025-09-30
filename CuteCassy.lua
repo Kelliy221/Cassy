@@ -144,7 +144,7 @@ CashToggle.MouseButton1Click:Connect(function()
                         CashTimerLabel.Text = "Disconnecting in " .. i .. "s"
                         task.wait(1)
                     end
-                    LocalPlayer:Kick("Autofarm is Done. Disconnecting")
+                    LocalPlayer:Kick("Tapos na, change account kana.")
                     break
                 end
 
