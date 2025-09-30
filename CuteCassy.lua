@@ -48,7 +48,7 @@ ScreenGui.Parent = game.CoreGui
 
 local Sound = Instance.new("Sound")
 Sound.SoundId = "rbxassetid://7361257051"
-Sound.Volume = 2
+Sound.Volume = 1
 Sound.PlayOnRemove = true
 Sound.Parent = game:GetService("SoundService")
 Sound:Destroy()
