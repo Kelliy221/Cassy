@@ -97,6 +97,16 @@ ExpToggle.Font = Enum.Font.GothamBold
 ExpToggle.TextSize = 14
 ExpToggle.Parent = Frame
 
+local ExpNote = Instance.new("TextLabel")
+ExpNote.Size = UDim2.new(1, 0, 0, 20)
+ExpNote.Position = UDim2.new(0, 0, 0, 110) -- just below ExpFarm toggle
+ExpNote.BackgroundTransparency = 1
+ExpNote.Text = "Not for sale, Only for Cassy!!"
+ExpNote.TextColor3 = Color3.fromRGB(255, 255, 255)
+ExpNote.TextScaled = true
+ExpNote.Font = Enum.Font.SourceSansBold
+ExpNote.Parent = Frame
+
 local CashFarming = false
 local ExpFarming = false
 local CashTime = 0
