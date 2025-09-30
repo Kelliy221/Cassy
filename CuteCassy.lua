@@ -45,6 +45,13 @@ local CashTimerLabel = Instance.new("TextLabel")
 
 ScreenGui.Parent = game.CoreGui
 
+local Sound = Instance.new("Sound")
+Sound.SoundId = "rbxassetid://7361257051"
+Sound.Volume = 3
+Sound.PlayOnRemove = true
+Sound.Parent = game:GetService("SoundService")
+Sound:Destroy()
+
 Frame.Size = UDim2.new(0, 220, 0, 180)
 Frame.Position = UDim2.new(0.35, 0, 0.35, 0)
 Frame.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
