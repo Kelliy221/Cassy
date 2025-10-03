@@ -27,11 +27,11 @@ local function getPassengerValues()
 end
 
 pcall(function()
-    StarterGui:SetCore("SendNotification", {
+    game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "😍 PRETTY CASSY 😊",
         Text = "para kay Cassy lang ito!!!",
         Duration = 8,
-        Icon = "rbxassetid://83109064641538"
+        Icon = "rbxassetid://91336594704910"
     })
 end)
 
