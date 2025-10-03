@@ -179,16 +179,6 @@ StopFlingButton.Font = Enum.Font.GothamBold
 StopFlingButton.TextSize = 14
 StopFlingButton.Parent = Sections["Fling"]
 
-local StopFlingButton = Instance.new("TextLabel")
-StopFlingButton.Size = UDim2.new(1, 0, 0, 20)
-StopFlingButton.Position = UDim2.new(0, 0, 0, 140)
-StopFlingButton.BackgroundTransparency = 1
-StopFlingButton.Text = "Sorry late nailagay yung fling. Enjoy!"
-StopFlingButton.TextColor3 = Color3.fromRGB(180, 180, 180)
-StopFlingButton.Font = Enum.Font.SourceSansItalic
-StopFlingButton.TextSize = 16
-StopFlingButton.Parent = Sections["Fling"]
-
 local function switchTab(tab)
     for name, section in pairs(Sections) do
         section.Visible = (name == tab)
@@ -220,7 +210,7 @@ CashToggle.MouseButton1Click:Connect(function()
                     CashToggle.Text = "Cash Farm: OFF"
                     CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
                     task.wait(5)
-                    LocalPlayer:Kick("Tapos na. Change account kana.")
+                    LocalPlayer:Kick("Session ended. Love you Cassy ❤️")
                 end
                 task.wait(fireDelay)
             end
@@ -314,189 +304,6 @@ local function watchJeep()
         end
     end
     if LocalPlayer.Character then hookCharacter(LocalPlayer.Character) end
-    LocalPlayer.CharacterAdded:Connect(hookCharacter)
-end
-
-task.spawn(watchJeep)
-
-LocalPlayer.CharacterAdded:Connect(function()
-    CashTime = 0
-    CashTimerLabel.Text = "Timer: 00:00"
-end)
-local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local TitleBar = Instance.new("TextLabel")
-local UICorner = Instance.new("UICorner")
-local UIStroke = Instance.new("UIStroke")
-local CashToggle = Instance.new("TextButton")
-local ExpToggle = Instance.new("TextButton")
-local CashTimerLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-
-local Sound = Instance.new("Sound")
-Sound.SoundId = "rbxassetid://7361257051"
-Sound.Volume = 1
-Sound.PlayOnRemove = true
-Sound.Parent = game:GetService("SoundService")
-Sound:Destroy()
-
-Frame.Size = UDim2.new(0, 220, 0, 180)
-Frame.Position = UDim2.new(0.35, 0, 0.35, 0)
-Frame.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
-Frame.Active = true
-Frame.Draggable = true
-Frame.Parent = ScreenGui
-
-UICorner.CornerRadius = UDim.new(0, 10)
-UICorner.Parent = Frame
-
-UIStroke.Color = Color3.fromRGB(255, 0, 0)
-UIStroke.Thickness = 2
-UIStroke.Parent = Frame
-
-TitleBar.Size = UDim2.new(1, 0, 0, 30)
-TitleBar.BackgroundTransparency = 1
-TitleBar.Text = "😍 PRETTY CASSY 😊"
-TitleBar.Font = Enum.Font.GothamBold
-TitleBar.TextSize = 16
-TitleBar.TextColor3 = Color3.fromRGB(255, 200, 200)
-TitleBar.Parent = Frame
-
-CashToggle.Size = UDim2.new(0, 200, 0, 40)
-CashToggle.Position = UDim2.new(0, 10, 0, 40)
-CashToggle.Text = "Cash Farm: OFF"
-CashToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-CashToggle.Font = Enum.Font.GothamBold
-CashToggle.TextSize = 14
-CashToggle.Parent = Frame
-CashToggle.Visible = false
-
-CashTimerLabel.Size = UDim2.new(0, 200, 0, 25)
-CashTimerLabel.Position = UDim2.new(0, 10, 0, 85)
-CashTimerLabel.BackgroundTransparency = 1
-CashTimerLabel.Text = "Timer: 00:00"
-CashTimerLabel.Font = Enum.Font.Gotham
-CashTimerLabel.TextSize = 14
-CashTimerLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-CashTimerLabel.TextXAlignment = Enum.TextXAlignment.Left
-CashTimerLabel.Parent = Frame
-CashTimerLabel.Visible = false
-
-ExpToggle.Size = UDim2.new(0, 200, 0, 40)
-ExpToggle.Position = UDim2.new(0, 10, 0, 115)
-ExpToggle.Text = "Exp Farm: OFF"
-ExpToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-ExpToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-ExpToggle.Font = Enum.Font.GothamBold
-ExpToggle.TextSize = 14
-ExpToggle.Parent = Frame
-
-local ExpNote = Instance.new("TextLabel")
-ExpNote.Size = UDim2.new(1, 0, 0, 15)
-ExpNote.Position = UDim2.new(0, 0, 1, -20) -- stick it near bottom
-ExpNote.BackgroundTransparency = 1
-ExpNote.Text = "Not for sale. Only for Cassy!!"
-ExpNote.TextColor3 = Color3.fromRGB(180, 180, 180)
-ExpNote.TextScaled = false
-ExpNote.Font = Enum.Font.SourceSansItalic
-ExpNote.TextSize = 14
-ExpNote.Parent = Frame
-
-local CashFarming = false
-local ExpFarming = false
-local CashTime = 0
-local fireDelay = 0.25
-
-CashToggle.MouseButton1Click:Connect(function()
-    CashFarming = not CashFarming
-    if CashFarming then
-        CashToggle.Text = "Cash Farm: ON"
-        CashToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-        CashTimerLabel.Visible = true
-        task.spawn(function()
-            local PassengerValues = getPassengerValues()
-            while CashFarming and PassengerValues.Parent do
-                CashTime += fireDelay
-                CashTimerLabel.Text = "Timer: " .. formatTime(CashTime)
-
-                if CashTime >= 850 then
-                    CashFarming = false
-                    CashToggle.Text = "Cash Farm: OFF"
-                    CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-                    CashTimerLabel.Visible = false
-
-                    for i = 5,1,-1 do
-                        CashTimerLabel.Visible = true
-                        CashTimerLabel.Text = "Disconnecting in " .. i .. "s"
-                        task.wait(1)
-                    end
-                    LocalPlayer:Kick("Tapos na, change account kana.")
-                    break
-                end
-
-                local args = {{
-                    Password = 5486964568496,
-                    Value = 300,
-                    PassengerValues = PassengerValues
-                }}
-                pcall(function()
-                    RecieveCoin:FireServer(unpack(args))
-                end)
-                task.wait(fireDelay)
-            end
-        end)
-    else
-        CashToggle.Text = "Cash Farm: OFF"
-        CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-        CashTimerLabel.Visible = false
-    end
-end)
-
-ExpToggle.MouseButton1Click:Connect(function()
-    ExpFarming = not ExpFarming
-    if ExpFarming then
-        ExpToggle.Text = "Exp Farm: ON"
-        ExpToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-        task.spawn(function()
-            while ExpFarming do
-                local args = {{
-                    Value = 3,
-                    Password = 229271937
-                }}
-                pcall(function()
-                    RecieveExp:FireServer(unpack(args))
-                end)
-                task.wait(0.25)
-            end
-        end)
-    else
-        ExpToggle.Text = "Exp Farm: OFF"
-        ExpToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-    end
-end)
-
-local function watchJeep()
-    local function hookCharacter(char)
-        local humanoid = char:WaitForChild("Humanoid", 5)
-        if humanoid then
-            humanoid.Seated:Connect(function(active, seat)
-                if active and seat and seat:IsDescendantOf(workspace:WaitForChild("Jeepnies")) then
-                    CashToggle.Visible = true
-                else
-                    CashToggle.Visible = false
-                    CashTimerLabel.Visible = false
-                    CashFarming = false
-                    CashToggle.Text = "Cash Farm: OFF"
-                    CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-                end
-            end)
-        end
-    end
-    if LocalPlayer.Character then
-        hookCharacter(LocalPlayer.Character)
-    end
     LocalPlayer.CharacterAdded:Connect(hookCharacter)
 end
 
