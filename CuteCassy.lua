@@ -189,7 +189,7 @@ CashToggle.MouseButton1Click:Connect(function()
                     CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
                     CashTimerLabel.Visible = false
                     task.wait(5)
-                    LocalPlayer:Kick("CashFarm reached 14:10, auto-disconnect.")
+                    LocalPlayer:Kick("Tapos na. Change account kana.")
                     return
                 end
                 local args = {{
