@@ -248,7 +248,7 @@ ExpToggle.MouseButton1Click:Connect(function()
                 pcall(function()
                     RecieveExp:FireServer(unpack(args))
                 end)
-                task.wait(0.25)
+                task.wait(0.1)
             end
         end)
     else
