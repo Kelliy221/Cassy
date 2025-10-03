@@ -7,6 +7,24 @@ local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 local RecieveCoin = Remotes:WaitForChild("RecieveCoin")
 local RecieveExp = Remotes:WaitForChild("RecieveExp")
 
+local sound = Instance.new("Sound")
+sound.SoundId = "rbxassetid://7361257051"
+sound.Volume = 3
+sound.Parent = LocalPlayer:WaitForChild("PlayerGui")
+sound:Play()
+sound.Ended:Connect(function()
+    sound:Destroy()
+end)
+
+pcall(function()
+    StarterGui:SetCore("SendNotification", {
+        Title = "😍 PRETTY CASSY 😊",
+        Text = "para kay Cassy lang ito!!!",
+        Duration = 8,
+        Icon = "rbxassetid://83109064641538"
+    })
+end)
+
 local function formatTime(sec)
     local minutes = math.floor(sec / 60)
     local secs = math.floor(sec % 60)
@@ -26,15 +44,295 @@ local function getPassengerValues()
     return result
 end
 
-pcall(function()
-    game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "😍 PRETTY CASSY 😊",
-        Text = "para kay Cassy lang ito!!!",
-        Duration = 8,
-        Icon = "rbxassetid://91336594704910"
-    })
+local ScreenGui = Instance.new("ScreenGui")
+local TabsFrame = Instance.new("Frame")
+local FarmTabButton = Instance.new("TextButton")
+local FlingTabButton = Instance.new("TextButton")
+local FarmFrame = Instance.new("Frame")
+local FlingFrame = Instance.new("Frame")
+local TitleBar = Instance.new("TextLabel")
+
+ScreenGui.Parent = game.CoreGui
+
+TabsFrame.Size = UDim2.new(0, 250, 0, 35)
+TabsFrame.Position = UDim2.new(0.35, 0, 0.25, 0)
+TabsFrame.BackgroundColor3 = Color3.fromRGB(80, 0, 0)
+TabsFrame.Parent = ScreenGui
+
+FarmTabButton.Size = UDim2.new(0.5, 0, 1, 0)
+FarmTabButton.Text = "Farm"
+FarmTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+FarmTabButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+FarmTabButton.Font = Enum.Font.GothamBold
+FarmTabButton.TextSize = 14
+FarmTabButton.Parent = TabsFrame
+
+FlingTabButton.Size = UDim2.new(0.5, 0, 1, 0)
+FlingTabButton.Position = UDim2.new(0.5, 0, 0, 0)
+FlingTabButton.Text = "Fling"
+FlingTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+FlingTabButton.BackgroundColor3 = Color3.fromRGB(100, 0, 0)
+FlingTabButton.Font = Enum.Font.GothamBold
+FlingTabButton.TextSize = 14
+FlingTabButton.Parent = TabsFrame
+
+FarmFrame.Size = UDim2.new(0, 250, 0, 200)
+FarmFrame.Position = UDim2.new(0.35, 0, 0.35, 0)
+FarmFrame.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+FarmFrame.Parent = ScreenGui
+
+TitleBar.Size = UDim2.new(1, 0, 0, 30)
+TitleBar.BackgroundTransparency = 1
+TitleBar.Text = "😍 PRETTY CASSY 😊"
+TitleBar.Font = Enum.Font.GothamBold
+TitleBar.TextSize = 16
+TitleBar.TextColor3 = Color3.fromRGB(255, 200, 200)
+TitleBar.Parent = FarmFrame
+
+local CashToggle = Instance.new("TextButton")
+CashToggle.Size = UDim2.new(0, 220, 0, 40)
+CashToggle.Position = UDim2.new(0, 15, 0, 50)
+CashToggle.Text = "Cash Farm: OFF"
+CashToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+CashToggle.Font = Enum.Font.GothamBold
+CashToggle.TextSize = 14
+CashToggle.Parent = FarmFrame
+CashToggle.Visible = false
+
+local CashTimerLabel = Instance.new("TextLabel")
+CashTimerLabel.Size = UDim2.new(0, 220, 0, 25)
+CashTimerLabel.Position = UDim2.new(0, 15, 0, 95)
+CashTimerLabel.BackgroundTransparency = 1
+CashTimerLabel.Text = "Timer: 00:00"
+CashTimerLabel.Font = Enum.Font.Gotham
+CashTimerLabel.TextSize = 14
+CashTimerLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+CashTimerLabel.TextXAlignment = Enum.TextXAlignment.Left
+CashTimerLabel.Parent = FarmFrame
+CashTimerLabel.Visible = false
+
+local ExpToggle = Instance.new("TextButton")
+ExpToggle.Size = UDim2.new(0, 220, 0, 40)
+ExpToggle.Position = UDim2.new(0, 15, 0, 130)
+ExpToggle.Text = "Exp Farm: OFF"
+ExpToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+ExpToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+ExpToggle.Font = Enum.Font.GothamBold
+ExpToggle.TextSize = 14
+ExpToggle.Parent = FarmFrame
+
+local FlingFrameTitle = Instance.new("TextLabel")
+FlingFrameTitle.Size = UDim2.new(1, 0, 0, 30)
+FlingFrameTitle.BackgroundTransparency = 1
+FlingFrameTitle.Text = "Fling Section"
+FlingFrameTitle.Font = Enum.Font.GothamBold
+FlingFrameTitle.TextSize = 16
+FlingFrameTitle.TextColor3 = Color3.fromRGB(255, 200, 200)
+FlingFrameTitle.Parent = FlingFrame
+FlingFrame.Visible = false
+FlingFrame.Size = UDim2.new(0, 250, 0, 200)
+FlingFrame.Position = UDim2.new(0.35, 0, 0.35, 0)
+FlingFrame.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+FlingFrame.Parent = ScreenGui
+
+local TargetBox = Instance.new("TextBox")
+TargetBox.Size = UDim2.new(0, 220, 0, 40)
+TargetBox.Position = UDim2.new(0, 15, 0, 50)
+TargetBox.PlaceholderText = "Enter target name"
+TargetBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+TargetBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TargetBox.Font = Enum.Font.Gotham
+TargetBox.TextSize = 14
+TargetBox.Parent = FlingFrame
+
+local FlingButton = Instance.new("TextButton")
+FlingButton.Size = UDim2.new(0, 220, 0, 40)
+FlingButton.Position = UDim2.new(0, 15, 0, 100)
+FlingButton.Text = "Start Fling"
+FlingButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+FlingButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+FlingButton.Font = Enum.Font.GothamBold
+FlingButton.TextSize = 14
+FlingButton.Parent = FlingFrame
+
+local StopFlingButton = Instance.new("TextButton")
+StopFlingButton.Size = UDim2.new(0, 220, 0, 40)
+StopFlingButton.Position = UDim2.new(0, 15, 0, 150)
+StopFlingButton.Text = "Stop Fling"
+StopFlingButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+StopFlingButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+StopFlingButton.Font = Enum.Font.GothamBold
+StopFlingButton.TextSize = 14
+StopFlingButton.Parent = FlingFrame
+
+local CashFarming = false
+local ExpFarming = false
+local CashTime = 0
+local fireDelay = 0.25
+local flingLoop = nil
+
+CashToggle.MouseButton1Click:Connect(function()
+    CashFarming = not CashFarming
+    if CashFarming then
+        CashToggle.Text = "Cash Farm: ON"
+        CashToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+        CashTimerLabel.Visible = true
+        task.spawn(function()
+            local PassengerValues = getPassengerValues()
+            while CashFarming and PassengerValues.Parent do
+                CashTime += fireDelay
+                CashTimerLabel.Text = "Timer: " .. formatTime(CashTime)
+                if CashTime >= 850 then
+                    CashFarming = false
+                    CashToggle.Text = "Cash Farm: OFF"
+                    CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+                    CashTimerLabel.Visible = false
+                    task.wait(5)
+                    LocalPlayer:Kick("CashFarm reached 14:10, auto-disconnect.")
+                    return
+                end
+                local args = {{
+                    Password = 5486964568496,
+                    Value = 300,
+                    PassengerValues = PassengerValues
+                }}
+                pcall(function()
+                    RecieveCoin:FireServer(unpack(args))
+                end)
+                task.wait(fireDelay)
+            end
+        end)
+    else
+        CashToggle.Text = "Cash Farm: OFF"
+        CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+        CashTimerLabel.Visible = false
+    end
 end)
 
+ExpToggle.MouseButton1Click:Connect(function()
+    ExpFarming = not ExpFarming
+    if ExpFarming then
+        ExpToggle.Text = "Exp Farm: ON"
+        ExpToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+        task.spawn(function()
+            while ExpFarming do
+                local args = {{
+                    Value = 3,
+                    Password = 229271937
+                }}
+                pcall(function()
+                    RecieveExp:FireServer(unpack(args))
+                end)
+                task.wait(0.25)
+            end
+        end)
+    else
+        ExpToggle.Text = "Exp Farm: OFF"
+        ExpToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+    end
+end)
+
+local function gplr(String)
+    local Found = {}
+    local strl = String:lower()
+    if strl == "all" then
+        for i,v in pairs(Players:GetPlayers()) do
+            table.insert(Found,v)
+        end
+    elseif strl == "others" then
+        for i,v in pairs(Players:GetPlayers()) do
+            if v.Name ~= LocalPlayer.Name then
+                table.insert(Found,v)
+            end
+        end
+    elseif strl == "me" then
+        for i,v in pairs(Players:GetPlayers()) do
+            if v.Name == LocalPlayer.Name then
+                table.insert(Found,v)
+            end
+        end
+    else
+        for i,v in pairs(Players:GetPlayers()) do
+            if v.Name:lower():sub(1, #String) == String:lower() then
+                table.insert(Found,v)
+            end
+        end
+    end
+    return Found 
+end
+
+FlingButton.MouseButton1Click:Connect(function()
+    local Target = gplr(TargetBox.Text)
+    if Target[1] and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        Target = Target[1]
+        flingLoop = task.spawn(function()
+            local Thrust = Instance.new("BodyThrust", LocalPlayer.Character.HumanoidRootPart)
+            Thrust.Force = Vector3.new(9999,9999,9999)
+            Thrust.Name = "YeetForce"
+            while Target.Character and Target.Character:FindFirstChild("HumanoidRootPart") do
+                LocalPlayer.Character.HumanoidRootPart.CFrame = Target.Character.HumanoidRootPart.CFrame
+                Thrust.Location = Target.Character.HumanoidRootPart.Position
+                game:GetService("RunService").Heartbeat:Wait()
+            end
+            Thrust:Destroy()
+        end)
+    end
+end)
+
+StopFlingButton.MouseButton1Click:Connect(function()
+    if flingLoop then
+        task.cancel(flingLoop)
+        flingLoop = nil
+    end
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+        LocalPlayer.Character.Humanoid.Health = 0
+    end
+end)
+
+local function watchJeep()
+    local function hookCharacter(char)
+        local humanoid = char:WaitForChild("Humanoid", 5)
+        if humanoid then
+            humanoid.Seated:Connect(function(active, seat)
+                if active and seat and seat:IsDescendantOf(workspace:WaitForChild("Jeepnies")) then
+                    CashToggle.Visible = true
+                else
+                    CashToggle.Visible = false
+                    CashTimerLabel.Visible = false
+                    CashFarming = false
+                    CashToggle.Text = "Cash Farm: OFF"
+                    CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+                end
+            end)
+        end
+    end
+    if LocalPlayer.Character then
+        hookCharacter(LocalPlayer.Character)
+    end
+    LocalPlayer.CharacterAdded:Connect(hookCharacter)
+end
+
+task.spawn(watchJeep)
+
+LocalPlayer.CharacterAdded:Connect(function()
+    CashTime = 0
+    CashTimerLabel.Text = "Timer: 00:00"
+end)
+
+FarmTabButton.MouseButton1Click:Connect(function()
+    FarmFrame.Visible = true
+    FlingFrame.Visible = false
+    FarmTabButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+    FlingTabButton.BackgroundColor3 = Color3.fromRGB(100, 0, 0)
+end)
+
+FlingTabButton.MouseButton1Click:Connect(function()
+    FarmFrame.Visible = false
+    FlingFrame.Visible = true
+    FlingTabButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+    FarmTabButton.BackgroundColor3 = Color3.fromRGB(100, 0, 0)
+end)
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = game.CoreGui
 
