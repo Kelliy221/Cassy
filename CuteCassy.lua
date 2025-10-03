@@ -38,6 +38,14 @@ end)
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = game.CoreGui
 
+local Sound = Instance.new("Sound")
+Sound.SoundId = "rbxassetid://7361257051"
+Sound.Volume = 3
+Sound.PlayOnRemove = true
+Sound.Parent = game:GetService("SoundService")
+Sound:Destroy()
+
+
 local Tabs = Instance.new("Frame")
 Tabs.Size = UDim2.new(0, 240, 0, 200)
 Tabs.Position = UDim2.new(0.35, 0, 0.35, 0)
