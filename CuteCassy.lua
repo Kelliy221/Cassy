@@ -193,11 +193,11 @@ FlingTabButton.MouseButton1Click:Connect(function()
     FlingFrame.Visible = true
 end)
 
--- Farming Logic
+
 local CashFarming = false
 local ExpFarming = false
 local CashTime = 0
-local fireDelay = 0.25
+local fireDelay = 0.0001
 
 CashToggle.MouseButton1Click:Connect(function()
     CashFarming = not CashFarming
@@ -248,7 +248,7 @@ ExpToggle.MouseButton1Click:Connect(function()
                 pcall(function()
                     RecieveExp:FireServer(unpack(args))
                 end)
-                task.wait(0.1)
+                task.wait(fireDelay)
             end
         end)
     else
