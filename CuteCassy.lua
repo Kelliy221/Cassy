@@ -1,4 +1,3 @@
-
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local StarterGui = game:GetService("StarterGui")
@@ -72,7 +71,6 @@ TitleBar.TextSize = 16
 TitleBar.TextColor3 = Color3.fromRGB(255, 200, 200)
 TitleBar.Parent = Tabs
 
--- Tab buttons
 local FarmTabButton = Instance.new("TextButton")
 FarmTabButton.Size = UDim2.new(0, 100, 0, 25)
 FarmTabButton.Position = UDim2.new(0, 10, 0, 35)
@@ -93,7 +91,6 @@ FlingTabButton.Font = Enum.Font.GothamBold
 FlingTabButton.TextSize = 14
 FlingTabButton.Parent = Tabs
 
--- Farm Section
 local FarmFrame = Instance.new("Frame")
 FarmFrame.Size = UDim2.new(1, -20, 1, -70)
 FarmFrame.Position = UDim2.new(0, 10, 0, 65)
@@ -143,7 +140,6 @@ ExpNote.Font = Enum.Font.SourceSansItalic
 ExpNote.TextSize = 14
 ExpNote.Parent = FarmFrame
 
--- Fling Section
 local FlingFrame = Instance.new("Frame")
 FlingFrame.Size = UDim2.new(1, -20, 1, -70)
 FlingFrame.Position = UDim2.new(0, 10, 0, 65)
@@ -182,7 +178,6 @@ StopFlingButton.Font = Enum.Font.GothamBold
 StopFlingButton.TextSize = 14
 StopFlingButton.Parent = FlingFrame
 
--- Tab switching
 FarmTabButton.MouseButton1Click:Connect(function()
     FarmFrame.Visible = true
     FlingFrame.Visible = false
@@ -205,12 +200,14 @@ CashToggle.MouseButton1Click:Connect(function()
         CashToggle.Text = "Cash Farm: ON"
         CashToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
         CashTimerLabel.Visible = true
+        CashTime = 0
+        
         task.spawn(function()
-            local PassengerValues = getPassengerValues()
-            while CashFarming and PassengerValues.Parent do
-                CashTime += fireDelay
+            while CashFarming do
                 CashTimerLabel.Text = "Timer: " .. formatTime(CashTime)
-                if CashTime >= (14*60+10) then
+                task.wait(1)
+                CashTime += 1
+                if CashTime >= (14 * 60 + 10) then
                     CashFarming = false
                     CashToggle.Text = "Cash Farm: OFF"
                     CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
@@ -219,6 +216,12 @@ CashToggle.MouseButton1Click:Connect(function()
                     LocalPlayer:Kick("Tapos na. Change Account kana.")
                     break
                 end
+            end
+        end)
+
+        task.spawn(function()
+            local PassengerValues = getPassengerValues()
+            while CashFarming and PassengerValues.Parent do
                 local args = {{
                     Password = 5486964568496,
                     Value = 300,
@@ -230,6 +233,7 @@ CashToggle.MouseButton1Click:Connect(function()
                 task.wait(fireDelay)
             end
         end)
+
     else
         CashToggle.Text = "Cash Farm: OFF"
         CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
@@ -257,7 +261,6 @@ ExpToggle.MouseButton1Click:Connect(function()
     end
 end)
 
--- Jeep detect
 local function watchJeep()
     local function hookCharacter(char)
         local humanoid = char:WaitForChild("Humanoid", 5)
@@ -287,7 +290,6 @@ LocalPlayer.CharacterAdded:Connect(function()
     CashTimerLabel.Text = "Timer: 00:00"
 end)
 
--- Fling Logic
 local lp = Players.LocalPlayer
 local Flinging = false
 local YeetForce
