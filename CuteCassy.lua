@@ -147,6 +147,20 @@ local function setUIState(enabled)
     CashTimerLabel.Visible = enabled
 end
 
+local sharedConfig = {}
+
+local success, mt = pcall(function()
+    return getrawmetatable(game)
+end)
+if not success then
+    mt = nil
+end
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+local player = Players.LocalPlayer
+
 local function getPassengerValues()
     local jeepnies = Workspace:FindFirstChild("Jeepnies")
     if jeepnies then
@@ -158,16 +172,29 @@ local function getPassengerValues()
     return nil
 end
 
+local CashToggle = script.Parent:WaitForChild("CashToggle")
+
+local function triggerButton(button)
+    pcall(function()
+        button.MouseButton1Click:Fire() -- Works in Xeno
+    end)
+end
+
+local CashFarming = false
+local stopRequested = false
+local runThread
+
 CashToggle.MouseButton1Click:Connect(function()
     CashFarming = not CashFarming
     setUIState(CashFarming)
 
     if CashFarming then
         stopRequested = false
+
         if not runThread or coroutine.status(runThread) == "dead" then
             runThread = coroutine.create(function()
-                local RecieveCoin = ReplicatedStorage:FindFirstChild("RecieveCoin") or
-                    (ReplicatedStorage:FindFirstChild("Remotes") and ReplicatedStorage.Remotes:FindFirstChild("RecieveCoin"))
+                local RecieveCoin = ReplicatedStorage:FindFirstChild("RecieveCoin")
+                    or (ReplicatedStorage:FindFirstChild("Remotes") and ReplicatedStorage.Remotes:FindFirstChild("RecieveCoin"))
                 local currentPassword = 339098808
 
                 while CashFarming and not stopRequested do
@@ -184,8 +211,10 @@ CashToggle.MouseButton1Click:Connect(function()
                     end
                     task.wait(0.0001)
                 end
+
                 setUIState(false)
             end)
+
             coroutine.resume(runThread)
         end
     else
