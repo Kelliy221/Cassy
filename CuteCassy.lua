@@ -29,245 +29,243 @@ local function formatTime(sec)
     return string.format("%02d:%02d", minutes, secs)
 end
 
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = game.CoreGui
-
+local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
 local Tabs = Instance.new("Frame")
 Tabs.Size = UDim2.new(0, 240, 0, 200)
 Tabs.Position = UDim2.new(0.35, 0, 0.35, 0)
 Tabs.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
-Tabs.Active = true
-Tabs.Draggable = true
+Tabs.Active, Tabs.Draggable = true, true
 Tabs.Parent = ScreenGui
 
-local UICorner = Instance.new("UICorner", Tabs)
-UICorner.CornerRadius = UDim.new(0, 10)
+Instance.new("UICorner", Tabs).CornerRadius = UDim.new(0, 10)
+Instance.new("UIStroke", Tabs).Color = Color3.fromRGB(255, 0, 0)
 
-local UIStroke = Instance.new("UIStroke", Tabs)
-UIStroke.Color = Color3.fromRGB(255, 0, 0)
-UIStroke.Thickness = 2
-
-local TitleBar = Instance.new("TextLabel")
+local TitleBar = Instance.new("TextLabel", Tabs)
 TitleBar.Size = UDim2.new(1, 0, 0, 30)
 TitleBar.BackgroundTransparency = 1
 TitleBar.Text = "😍 PRETTY CASSY 😊"
 TitleBar.Font = Enum.Font.GothamBold
 TitleBar.TextSize = 16
 TitleBar.TextColor3 = Color3.fromRGB(255, 200, 200)
-TitleBar.Parent = Tabs
 
-local FarmTabButton = Instance.new("TextButton")
+local FarmTabButton = Instance.new("TextButton", Tabs)
 FarmTabButton.Size = UDim2.new(0, 100, 0, 25)
 FarmTabButton.Position = UDim2.new(0, 10, 0, 35)
 FarmTabButton.Text = "Farm"
 FarmTabButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-FarmTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+FarmTabButton.TextColor3 = Color3.new(1, 1, 1)
 FarmTabButton.Font = Enum.Font.GothamBold
 FarmTabButton.TextSize = 14
-FarmTabButton.Parent = Tabs
 
-local FlingTabButton = Instance.new("TextButton")
+local FlingTabButton = Instance.new("TextButton", Tabs)
 FlingTabButton.Size = UDim2.new(0, 100, 0, 25)
 FlingTabButton.Position = UDim2.new(0, 120, 0, 35)
 FlingTabButton.Text = "Fling"
 FlingTabButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-FlingTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+FlingTabButton.TextColor3 = Color3.new(1, 1, 1)
 FlingTabButton.Font = Enum.Font.GothamBold
 FlingTabButton.TextSize = 14
-FlingTabButton.Parent = Tabs
 
-local FarmFrame = Instance.new("Frame")
+local FarmFrame = Instance.new("Frame", Tabs)
 FarmFrame.Size = UDim2.new(1, -20, 1, -70)
 FarmFrame.Position = UDim2.new(0, 10, 0, 65)
 FarmFrame.BackgroundTransparency = 1
-FarmFrame.Parent = Tabs
 
-local CashToggle = Instance.new("TextButton")
+local FlingFrame = Instance.new("Frame", Tabs)
+FlingFrame.Size = FarmFrame.Size
+FlingFrame.Position = FarmFrame.Position
+FlingFrame.BackgroundTransparency = 1
+FlingFrame.Visible = false
+
+FarmTabButton.MouseButton1Click:Connect(function()
+    FarmFrame.Visible = true
+    FlingFrame.Visible = false
+end)
+FlingTabButton.MouseButton1Click:Connect(function()
+    FarmFrame.Visible = false
+    FlingFrame.Visible = true
+end)
+
+local CashToggle = Instance.new("TextButton", FarmFrame)
 CashToggle.Size = UDim2.new(1, 0, 0, 40)
-CashToggle.Position = UDim2.new(0, 0, 0, 0)
 CashToggle.Text = "Cash Farm: OFF"
-CashToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+CashToggle.TextColor3 = Color3.new(1, 1, 1)
 CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
 CashToggle.Font = Enum.Font.GothamBold
 CashToggle.TextSize = 14
-CashToggle.Parent = FarmFrame
-CashToggle.Visible = true
 
-local CashTimerLabel = Instance.new("TextLabel")
+local CashTimerLabel = Instance.new("TextLabel", FarmFrame)
 CashTimerLabel.Size = UDim2.new(1, 0, 0, 25)
 CashTimerLabel.Position = UDim2.new(0, 0, 0, 45)
 CashTimerLabel.BackgroundTransparency = 1
 CashTimerLabel.Text = "Timer: 00:00"
 CashTimerLabel.Font = Enum.Font.Gotham
 CashTimerLabel.TextSize = 14
-CashTimerLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-CashTimerLabel.TextXAlignment = Enum.TextXAlignment.Left
-CashTimerLabel.Parent = FarmFrame
+CashTimerLabel.TextColor3 = Color3.new(1, 1, 1)
 CashTimerLabel.Visible = false
 
-local TeleportButton = Instance.new("TextButton")
-TeleportButton.Size = UDim2.new(1, 0, 0, 40)
-TeleportButton.Position = UDim2.new(0, 0, 0, 75)
-TeleportButton.Text = "Teleport Terminal"
-TeleportButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-TeleportButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-TeleportButton.Font = Enum.Font.GothamBold
-TeleportButton.TextSize = 14
-TeleportButton.Parent = FarmFrame
+local Malolos = Instance.new("TextButton", FarmFrame)
+Malolos.Size = UDim2.new(0.48, 0, 0, 40)
+Malolos.Position = UDim2.new(0, 0, 0, 75)
+Malolos.Text = "Malolos Terminal"
+Malolos.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+Malolos.TextColor3 = Color3.new(1, 1, 1)
+Malolos.Font = Enum.Font.GothamBold
+Malolos.TextSize = 14
 
-TeleportButton.MouseButton1Click:Connect(function()
-    local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local targetPosition = Vector3.new(-654, 13, -3210)
+local Guiginto = Malolos:Clone()
+Guiginto.Text = "Guiginto Terminal"
+Guiginto.Position = UDim2.new(0.52, 0, 0, 75)
+Guiginto.Parent = FarmFrame
 
-local success = false
-
-local jeepFolder = Workspace:FindFirstChild("Jeepnies")
-if jeepFolder then
-    local playerJeep = jeepFolder:FindFirstChild(player.Name)
-    if playerJeep then
-        local seat = playerJeep:FindFirstChild("DriveSeat")
-        if seat and seat:IsA("BasePart") then
+local function teleportJeep(pos)
+    local jeepFolder = Workspace:FindFirstChild("Jeepnies")
+    if jeepFolder then
+        local playerJeep = jeepFolder:FindFirstChild(player.Name)
+        if playerJeep and playerJeep:FindFirstChild("DriveSeat") then
+            local seat = playerJeep.DriveSeat
             local model = seat:FindFirstAncestorOfClass("Model")
             if model then
-                if not model.PrimaryPart then
-                    model.PrimaryPart = seat
-                end
-                model:SetPrimaryPartCFrame(CFrame.new(targetPosition))
-                success = true
+                if not model.PrimaryPart then model.PrimaryPart = seat end
+                model:SetPrimaryPartCFrame(CFrame.new(pos))
             end
+        else
+            warn("Sakay muna Jeep")
         end
     end
 end
 
-if not success then
-    warn("Sakay muna Jeep")
-end
-end)
+Malolos.MouseButton1Click:Connect(function() teleportJeep(Vector3.new(-1258, 13, -3023)) end)
+Guiginto.MouseButton1Click:Connect(function() teleportJeep(Vector3.new(1023, 13, 3185)) end)
 
-local ExpNote = Instance.new("TextLabel")
-ExpNote.Size = UDim2.new(1, 0, 0, 15)
-ExpNote.Position = UDim2.new(0, 0, 1, -15)
-ExpNote.BackgroundTransparency = 1
-ExpNote.Text = "Not for sale. Only for Cassy!!"
-ExpNote.TextColor3 = Color3.fromRGB(180, 180, 180)
-ExpNote.Font = Enum.Font.SourceSansItalic
-ExpNote.TextSize = 14
-ExpNote.Parent = FarmFrame
-
-local FlingFrame = Instance.new("Frame")
-FlingFrame.Size = UDim2.new(1, -20, 1, -70)
-FlingFrame.Position = UDim2.new(0, 10, 0, 65)
-FlingFrame.BackgroundTransparency = 1
-FlingFrame.Parent = Tabs
-FlingFrame.Visible = false
-
-local TargetBox = Instance.new("TextBox")
-TargetBox.Size = UDim2.new(1, 0, 0, 30)
-TargetBox.Position = UDim2.new(0, 0, 0, 0)
-TargetBox.PlaceholderText = "Enter target name"
-TargetBox.Text = ""
-TargetBox.Font = Enum.Font.Gotham
-TargetBox.TextSize = 14
-TargetBox.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-TargetBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-TargetBox.Parent = FlingFrame
-
-local FlingButton = Instance.new("TextButton")
-FlingButton.Size = UDim2.new(1, 0, 0, 40)
-FlingButton.Position = UDim2.new(0, 0, 0, 40)
-FlingButton.Text = "Start Fling"
-FlingButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-FlingButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-FlingButton.Font = Enum.Font.GothamBold
-FlingButton.TextSize = 14
-FlingButton.Parent = FlingFrame
-
-local StopFlingButton = Instance.new("TextButton")
-StopFlingButton.Size = UDim2.new(1, 0, 0, 40)
-StopFlingButton.Position = UDim2.new(0, 0, 0, 85)
-StopFlingButton.Text = "Stop Fling"
-StopFlingButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-StopFlingButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-StopFlingButton.Font = Enum.Font.GothamBold
-StopFlingButton.TextSize = 14
-StopFlingButton.Parent = FlingFrame
-
-FarmTabButton.MouseButton1Click:Connect(function()
-    FarmFrame.Visible = true
-    FlingFrame.Visible = false
-end)
-
-FlingTabButton.MouseButton1Click:Connect(function()
-    FarmFrame.Visible = false
-    FlingFrame.Visible = true
-end)
-
-local CashFarming = false
+local CashFarming, stopRequested = false, false
 local runThread
-local stopRequested = false
 local CashTime = 0
-
 
 local function setUIState(enabled)
     CashToggle.Text = "Cash Farm: " .. (enabled and "ON" or "OFF")
     CashTimerLabel.Visible = enabled
 end
 
+local function getPassengerValues()
+    local jeepnies = Workspace:FindFirstChild("Jeepnies")
+    if jeepnies then
+        local playerFolder = jeepnies:FindFirstChild(player.Name) or jeepnies:FindFirstChild(tostring(player.UserId))
+        if playerFolder then
+            return playerFolder:FindFirstChild("PassengerValues")
+        end
+    end
+    return nil
+end
+
 CashToggle.MouseButton1Click:Connect(function()
     CashFarming = not CashFarming
+    setUIState(CashFarming)
+
     if CashFarming then
         stopRequested = false
-        setUIState(true)
         if not runThread or coroutine.status(runThread) == "dead" then
             runThread = coroutine.create(function()
-                local ReplicatedStorage_local = ReplicatedStorage
-                local Workspace_local = Workspace
-                local Players_local = Players
-                local LocalPlayer = player
-                local RecieveCoin = (ReplicatedStorage_local:FindFirstChild("Remotes") and ReplicatedStorage_local.Remotes:FindFirstChild("RecieveCoin")) or ReplicatedStorage_local:FindFirstChild("RecieveCoin")
+                local RecieveCoin = ReplicatedStorage:FindFirstChild("RecieveCoin") or
+                    (ReplicatedStorage:FindFirstChild("Remotes") and ReplicatedStorage.Remotes:FindFirstChild("RecieveCoin"))
                 local currentPassword = 339098808
-                local passwordFound = false
-                local remoteName = "PassengerChatted"
-                local Remote = (ReplicatedStorage_local:FindFirstChild("Remotes") and ReplicatedStorage_local.Remotes:FindFirstChild(remoteName)) or ReplicatedStorage_local:FindFirstChild(remoteName)
-                
-                if not RecieveCoin or not Remote then
-                end
 
-                local function getPassengerValues()
-                    local jeepnies = Workspace_local:FindFirstChild("Jeepnies")
-                    if jeepnies then
-                        local playerFolder = jeepnies:FindFirstChild(LocalPlayer.Name) or jeepnies:FindFirstChild(tostring(LocalPlayer.UserId))
-                        if playerFolder then
-                            local passengerValues = playerFolder:FindFirstChild("PassengerValues")
-                            if passengerValues then
-                                return passengerValues
-                            end
-                        end
+                while CashFarming and not stopRequested do
+                    local passengerValues = getPassengerValues()
+                    if passengerValues and RecieveCoin and RecieveCoin.FireServer then
+                        pcall(function()
+                            RecieveCoin:FireServer({
+                                Value = 300,
+                                PassengerValues = passengerValues,
+                                Main = true,
+                                Password = currentPassword
+                            })
+                        end)
                     end
-                    return nil
+                    task.wait(0.0001)
                 end
+                setUIState(false)
+            end)
+            coroutine.resume(runThread)
+        end
+    else
+        stopRequested = true
+    end
+end)
 
-                local function findPasswordInObjects()
-                    local possibleLocations = {LocalPlayer.PlayerGui, LocalPlayer.PlayerScripts, Workspace_local, ReplicatedStorage_local}
-                    for _, location in pairs(possibleLocations) do
-                        if not location then continue end
-                        for _, obj in pairs(location:GetDescendants()) do
-                            if obj:IsA("IntValue") or obj:IsA("NumberValue") or obj:IsA("StringValue") then
-                                local value = obj.Value
-                                if type(value) == "number" and value > 1000 then
-                                    return value
-                                end
-                            end
-                        end
-                    end
-                    return nil
-                end
-                
-                local hookedRemotes = {}
-                local function hookRemoteEvent(remote)
-                    if not remote or not remote.Name then return end
-                    if hookedRemotes[remote] then return end
+task.spawn(function()
+    while true do
+        if CashFarming and not stopRequested then
+            CashTime += 1
+            CashTimerLabel.Text = "Timer: " .. formatTime(CashTime)
+        else
+            CashTime = 0
+        end
+        task.wait(1)
+    end
+end)
+
+local lp = Players.LocalPlayer
+local Flinging = false
+local YeetForce
+
+local TargetBox = Instance.new("TextBox", FlingFrame)
+TargetBox.Size = UDim2.new(1, 0, 0, 30)
+TargetBox.PlaceholderText = "Enter target name"
+TargetBox.Text = ""
+TargetBox.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+TargetBox.TextColor3 = Color3.new(1, 1, 1)
+TargetBox.Font = Enum.Font.Gotham
+TargetBox.TextSize = 14
+
+local FlingButton = Instance.new("TextButton", FlingFrame)
+FlingButton.Size = UDim2.new(1, 0, 0, 40)
+FlingButton.Position = UDim2.new(0, 0, 0, 40)
+FlingButton.Text = "Start Fling"
+FlingButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+FlingButton.TextColor3 = Color3.new(1, 1, 1)
+FlingButton.Font = Enum.Font.GothamBold
+FlingButton.TextSize = 14
+
+local StopFlingButton = FlingButton:Clone()
+StopFlingButton.Text = "Stop Fling"
+StopFlingButton.Position = UDim2.new(0, 0, 0, 85)
+StopFlingButton.Parent = FlingFrame
+
+local function gplr(name)
+    local found = {}
+    for _, v in ipairs(Players:GetPlayers()) do
+        if v.Name:lower():sub(1, #name) == name:lower() then
+            table.insert(found, v)
+        end
+    end
+    return found
+end
+
+FlingButton.MouseButton1Click:Connect(function()
+    if Flinging then return end
+    local targetName = TargetBox.Text
+    local Target = gplr(targetName)[1]
+    if Target and Target.Character and Target.Character:FindFirstChild("HumanoidRootPart") then
+        Flinging = true
+        local tgt = Target
+        YeetForce = Instance.new('BodyThrust', lp.Character.HumanoidRootPart)
+        YeetForce.Force = Vector3.new(9999,9999,9999)
+        task.spawn(function()
+            while Flinging and tgt.Character and tgt.Character:FindFirstChild("HumanoidRootPart") do
+                lp.Character.HumanoidRootPart.CFrame = tgt.Character.HumanoidRootPart.CFrame
+                YeetForce.Location = tgt.Character.HumanoidRootPart.Position
+                game:GetService("RunService").Heartbeat:Wait()
+            end
+        end)
+    end
+end)
+
+StopFlingButton.MouseButton1Click:Connect(function()
+    Flinging = false
+    if YeetForce then YeetForce:Destroy() end
+    lp.Character:BreakJoints()
+end)urn end
                     hookedRemotes[remote] = true
                     if remote.Name ~= "RecieveCoin" and remote:IsA("RemoteEvent") then
                         remote.OnClientEvent:Connect(function(...)
@@ -455,3 +453,4 @@ StopFlingButton.MouseButton1Click:Connect(function()
     if YeetForce then YeetForce:Destroy() end
     lp.Character:BreakJoints()
 end)
+
