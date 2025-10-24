@@ -427,14 +427,17 @@ CashToggle.MouseButton1Click:Connect(function()
 end)
 
 task.spawn(function()
+    local lastTime = tick()
     while true do
         if CashFarming and not stopRequested then
-            CashTime += 0.1
+            local now = tick()
+            CashTime += (now - lastTime)
             CashTimerLabel.Text = "Timer: " .. formatTime(CashTime)
+            lastTime = now
         else
-            CashTime = 0
+            lastTime = tick()
         end
-        task.wait(1)
+        task.wait(0.1)
     end
 end)
 
@@ -496,4 +499,5 @@ StopFlingButton.MouseButton1Click:Connect(function()
     if YeetForce then YeetForce:Destroy() end
     lp.Character:BreakJoints()
 end)
+
 
