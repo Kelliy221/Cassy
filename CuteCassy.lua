@@ -128,7 +128,7 @@ Guiginto.Parent = FarmFrame
 Malolos.MouseButton1Click:Connect(function()
     local Players = game:GetService("Players")
 local player = Players.LocalPlayer
-local targetPosition = Vector3.new(-1258, 13, -3023)
+local targetPosition = Vector3.new(-1270, 14, -3029)
 
 local success = false
 
@@ -496,3 +496,4 @@ StopFlingButton.MouseButton1Click:Connect(function()
     if YeetForce then YeetForce:Destroy() end
     lp.Character:BreakJoints()
 end)
+
