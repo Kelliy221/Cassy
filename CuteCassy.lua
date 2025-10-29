@@ -576,7 +576,7 @@ Sarao.MouseButton1Click:Connect(function()
     click(gui.Shop.Frame.Desc.Customize)
     task.wait(0.75)
     click(gui.Customize.Frame.ButtonsList.List.Parts)
-    task.wait(0.65)
+    task.wait(0.75)
     
     local path = gui
 
@@ -690,3 +690,4 @@ LocalPlayer.CharacterAdded:Connect(function()
     CashTimerLabel.Text = "Timer: 00:00"
 
 end)
+
