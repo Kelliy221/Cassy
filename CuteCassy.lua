@@ -572,18 +572,18 @@ Sarao.MouseButton1Click:Connect(function()
     end
 
     click(gui.Shop.Frame.ScrollingFrame.List["Sarao Custombuilt Model 2"])
-    task.wait(0.5)
+    task.wait(0.75)
     click(gui.Shop.Frame.Desc.Customize)
-    task.wait(0.5)
+    task.wait(0.75)
     click(gui.Customize.Frame.ButtonsList.List.Parts)
-    task.wait(0.5)
+    task.wait(0.65)
     
     local path = gui
 
     local buttons = {
         path.Customize.Frame.Elements.Parts.Engines["4JK1"], path.Customize.Frame.Desc.Buy,
         path.Customize.Frame.Elements.Parts.Engines["4JJ1"], path.Customize.Frame.Desc.Buy,
-        path.Customize.Frame.Elements.Parts.Transmissions["5-Speed Manual"], path.Customize.Frame.Desc.Buy, path.Customize.Frame.Desc.Equip,
+        path.Customize.Frame.Elements.Parts.Transmissions["5-Speed Manual"], path.Customize.Frame.Desc.Buy,
         path.Customize.Frame.Elements.Parts.Transmissions["6-Speed Manual"], path.Customize.Frame.Desc.Buy, path.Customize.Frame.Desc.Equip,
         path.Customize.Frame.Elements.Parts.Radiators["R - 02"], path.Customize.Frame.Desc.Buy, path.Customize.Frame.Desc.Equip,
         path.Customize.Frame.Elements.Parts.Brakes["B - 02"], path.Customize.Frame.Desc.Buy,
@@ -615,7 +615,7 @@ Sarao.MouseButton1Click:Connect(function()
     }
 
     for _, button in ipairs(buttons) do
-        delayClick(button, 0.5)
+        delayClick(button, 0.75)
     end
 end)
 
@@ -638,18 +638,18 @@ LongJeep.MouseButton1Click:Connect(function()
     end
 
     click(gui.Shop.Frame.ScrollingFrame.List["DF Devera Long Model"])
-    task.wait(0.5)
+    task.wait(0.75)
     click(gui.Shop.Frame.Desc.Customize)
-    task.wait(0.5)
+    task.wait(0.75)
     click(gui.Customize.Frame.ButtonsList.List.Parts)
-    task.wait(0.5)
+    task.wait(0.75)
     
     local path = gui
 
     local buttons = {
         path.Customize.Frame.Elements.Parts.Engines["4JK1"], path.Customize.Frame.Desc.Buy,
         path.Customize.Frame.Elements.Parts.Engines["4JJ1"], path.Customize.Frame.Desc.Buy,
-        path.Customize.Frame.Elements.Parts.Transmissions["5-Speed Manual"], path.Customize.Frame.Desc.Buy, path.Customize.Frame.Desc.Equip,
+        path.Customize.Frame.Elements.Parts.Transmissions["5-Speed Manual"], path.Customize.Frame.Desc.Buy,
         path.Customize.Frame.Elements.Parts.Transmissions["6-Speed Manual"], path.Customize.Frame.Desc.Buy, path.Customize.Frame.Desc.Equip,
         path.Customize.Frame.Elements.Parts.Radiators["R - 02"], path.Customize.Frame.Desc.Buy, path.Customize.Frame.Desc.Equip,
         path.Customize.Frame.Elements.Parts.Brakes["B - 02"], path.Customize.Frame.Desc.Buy,
@@ -681,11 +681,12 @@ LongJeep.MouseButton1Click:Connect(function()
     }
 
     for _, button in ipairs(buttons) do
-        delayClick(button, 0.5)
+        delayClick(button, 0.75)
     end
 end)
 
 LocalPlayer.CharacterAdded:Connect(function()
     CashTime = 0
     CashTimerLabel.Text = "Timer: 00:00"
+
 end)
