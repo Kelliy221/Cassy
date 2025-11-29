@@ -309,169 +309,66 @@ end
 
 CashToggle.MouseButton1Click:Connect(function()
     CashFarming = not CashFarming
+
     if CashFarming then
         stopRequested = false
         setUIState(true)
+
         if not runThread or coroutine.status(runThread) == "dead" then
             runThread = coroutine.create(function()
-                local ReplicatedStorage_local = ReplicatedStorage
-                local Workspace_local = Workspace
-                local Players_local = Players
-                local LocalPlayer = player
-                local RecieveCoin = (ReplicatedStorage_local:FindFirstChild("Remotes") and ReplicatedStorage_local.Remotes:FindFirstChild("RecieveCoin")) or ReplicatedStorage_local:FindFirstChild("RecieveCoin")
-                local currentPassword = 339098808
-                local passwordFound = false
-                local remoteName = "PassengerChatted"
-                local Remote = (ReplicatedStorage_local:FindFirstChild("Remotes") and ReplicatedStorage_local.Remotes:FindFirstChild(remoteName)) or ReplicatedStorage_local:FindFirstChild(remoteName)
-                
-                if not RecieveCoin or not Remote then
+
+                local RS = game:GetService("ReplicatedStorage")
+                local WS = game:GetService("Workspace")
+                local PLR = game.Players.LocalPlayer
+                local Remotes = RS:WaitForChild("Remotes")
+                local RecieveCoin = Remotes:WaitForChild("RecieveCoin")
+                        
+                local function getPassword()
+                    local codeModule = PLR.PlayerScripts:FindFirstChild("Code")
+                    if not codeModule then return nil end
+
+                    local ok, res = pcall(require, codeModule)
+                    if ok and typeof(res) == "table" then
+                        return res.code or res.password or res.Password
+                    end
                 end
 
-                local function getPassengerValues()
-                    local jeepnies = Workspace_local:FindFirstChild("Jeepnies")
-                    if jeepnies then
-                        local playerFolder = jeepnies:FindFirstChild(LocalPlayer.Name) or jeepnies:FindFirstChild(tostring(LocalPlayer.UserId))
-                        if playerFolder then
-                            local passengerValues = playerFolder:FindFirstChild("PassengerValues")
-                            if passengerValues then
-                                return passengerValues
-                            end
-                        end
+                local function getPV()
+                    local jeepFolder = WS:FindFirstChild("Jeepnies")
+                    if not jeepFolder then return nil end
+
+                    local owned = jeepFolder:FindFirstChild(PLR.Name)
+                        or jeepFolder:FindFirstChild(tostring(PLR.UserId))
+
+                    if owned then
+                        return owned:FindFirstChild("PassengerValues")
                     end
-                    return nil
                 end
 
-                local function findPasswordInObjects()
-                    local possibleLocations = {LocalPlayer.PlayerGui, LocalPlayer.PlayerScripts, Workspace_local, ReplicatedStorage_local}
-                    for _, location in pairs(possibleLocations) do
-                        if not location then continue end
-                        for _, obj in pairs(location:GetDescendants()) do
-                            if obj:IsA("IntValue") or obj:IsA("NumberValue") or obj:IsA("StringValue") then
-                                local value = obj.Value
-                                if type(value) == "number" and value > 1000 then
-                                    return value
-                                end
-                            end
-                        end
-                    end
-                    return nil
-                end
-                
-                local hookedRemotes = {}
-                local function hookRemoteEvent(remote)
-                    if not remote or not remote.Name then return end
-                    if hookedRemotes[remote] then return end
-                    hookedRemotes[remote] = true
-                    if remote.Name ~= "RecieveCoin" and remote:IsA("RemoteEvent") then
-                        remote.OnClientEvent:Connect(function(...)
-                            local args = {...}
-                            for _, arg in ipairs(args) do
-                                if type(arg) == "number" and arg > 1000 then
-                                    currentPassword = arg
-                                    passwordFound = true
-                                end
-                            end
-                        end)
-                    end
-                end
-                
-                pcall(function()
-                    if ReplicatedStorage_local:FindFirstChild("Remotes") then
-                        for _, obj in pairs(ReplicatedStorage_local.Remotes:GetChildren()) do
-                            if obj:IsA("RemoteEvent") then
-                                hookRemoteEvent(obj)
-                            elseif obj:IsA("RemoteFunction") then
-                                hookRemoteFunction(obj)
-                            end
-                        end
-                    end
-                end)
-                
-                local mt, oldNamecall
-                local namecallAttached = false
-                pcall(function()
-                    mt = getrawmetatable(game)
-                    if mt then
-                        oldNamecall = mt.__namecall
-                        setreadonly(mt, false)
-                        mt.__namecall = function(self, ...)
-                            local method = getnamecallmethod()
-                            if tostring(self) == remoteName and method == "FireServer" then
-                                local args = {...}
-                                while CashFarming do
-                                    local success, err = pcall(function()
-                                        if Remote and Remote.FireServer then
-                                            Remote:FireServer(table.unpack(args))
-                                        end
-                                    end)
-                                    if not success then break end
-                                    task.wait(0.25)
-                                end
-                            end
-                            return oldNamecall(self, ...)
-                        end
-                        setreadonly(mt, true)
-                        namecallAttached = true
-                    end
-                end)
-                
                 while CashFarming and not stopRequested do
-                    local passengerValues = getPassengerValues()
-                    if not passwordFound then
-                        local foundPassword = findPasswordInObjects()
-                        if foundPassword then
-                            currentPassword = foundPassword
-                            passwordFound = true
-                        end
-                    end
+                    local password = getPassword()
+                    local pv = getPV()
 
-                    if not passwordFound then
-                        local testPasswords = {os.time(), LocalPlayer.UserId, currentPassword + 1}
-                        for _, testPass in ipairs(testPasswords) do
-                            if stopRequested or (not CashFarming) then break end
-                            if passengerValues then
-                                local ok = pcall(function()
-                                    if RecieveCoin and RecieveCoin.FireServer then
-                                        RecieveCoin:FireServer({
-                                            Value = 300,
-                                            PassengerValues = passengerValues,
-                                            Main = true,
-                                            Password = testPass
-                                        })
-                                    end
-                                end)
-                                if ok then
-                                    currentPassword = testPass
-                                    passwordFound = true
-                                    break
-                                end
-                            end
-                            task.wait(0.0001)
-                        end
-                    end
-
-                    if stopRequested or (not CashFarming) then break end
-
-                    if passengerValues then
+                    if password and pv then
                         pcall(function()
-                            if RecieveCoin and RecieveCoin.FireServer then
-                                RecieveCoin:FireServer({
-                                    Value = 300,
-                                    PassengerValues = passengerValues,
-                                    Main = true,
-                                    Password = currentPassword
-                                })
-                            end
+                            RecieveCoin:FireServer({
+                                Value = 300,
+                                PassengerValues = pv,
+                                Main = true,
+                                Password = password
+                            })
                         end)
                     end
 
-                    task.wait(0.0001)
+                    task.wait()
                 end
 
                 setUIState(false)
             end)
+
             coroutine.resume(runThread)
         end
+
     else
         stopRequested = true
         setUIState(false)
@@ -690,4 +587,5 @@ LocalPlayer.CharacterAdded:Connect(function()
     CashTimerLabel.Text = "Timer: 00:00"
 
 end)
+
 
