@@ -18,8 +18,8 @@ end)
 
 pcall(function()
     StarterGui:SetCore("SendNotification", {
-        Title = "Author",
-        Text = "Script made by Ken.",
+        Title = "Kenn",
+        Text = "SANA MASAYA KA.",
         Duration = 8,
         Icon = "rbxassetid://78556163169177"
     })
@@ -52,7 +52,7 @@ UIStroke.Thickness = 2
 local TitleBar = Instance.new("TextLabel")
 TitleBar.Size = UDim2.new(1, 0, 0, 30)
 TitleBar.BackgroundTransparency = 1
-TitleBar.Text = "CASSY"
+TitleBar.Text = "CUTESY CASSEY"
 TitleBar.Font = Enum.Font.GothamBold
 TitleBar.TextSize = 16
 TitleBar.TextColor3 = Color3.fromRGB(255, 200, 200)
@@ -231,7 +231,7 @@ local ExpNote = Instance.new("TextLabel")
 ExpNote.Size = UDim2.new(1, 0, 0, 15)
 ExpNote.Position = UDim2.new(0, 0, 1, -15)
 ExpNote.BackgroundTransparency = 1
-ExpNote.Text = "Not for sale."
+ExpNote.Text = "Not for sale. Kay Cassy lang ito!!!"
 ExpNote.TextColor3 = Color3.fromRGB(180, 180, 180)
 ExpNote.Font = Enum.Font.SourceSansItalic
 ExpNote.TextSize = 14
