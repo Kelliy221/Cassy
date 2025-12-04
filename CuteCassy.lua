@@ -304,46 +304,84 @@ Deduct.FocusLost:Connect(function(enterPressed)
 end)
 
 local seconds = 0
-local autoFarmEnabled = false
-local fireDelay = 0
 local Flinging = false
 local YeetForce
+local autoCoinEnabled = false
+local capturedArgs = nil
 
-local function runAutoFarm()
-    task.spawn(function()
-        while autoFarmEnabled do
-            local jeep = Workspace:WaitForChild("Jeepnies"):WaitForChild(player.Name)
-            local args = {
-                {
-                    Password = 5486964568496,
-                    Value = 300,
-                    PassengerValues = jeep:WaitForChild("PassengerValues")
-                }
-            }
-            remote:FireServer(unpack(args))
-            task.wait(fireDelay)
+local RS = game:GetService("ReplicatedStorage")
+local WS = game:GetService("Workspace")
+local PLR = game.Players.LocalPlayer
+local Remotes = RS:WaitForChild("Remotes")
+local RecieveCoin = Remotes:WaitForChild("RecieveCoin")
+local PassengerChatted = Remotes:WaitForChild("PassengerChatted")
+local codeModule = PLR.PlayerScripts:WaitForChild("Code")
+
+do
+    local mt = getrawmetatable(game)
+    local oldNamecall = mt.__namecall
+    setreadonly(mt, false)
+    mt.__namecall = function(self, ...)
+        local method = getnamecallmethod()
+        if tostring(self) == "PassengerChatted" and method == "FireServer" then
+            capturedArgs = {...}
         end
-    end)
+        return oldNamecall(self, ...)
+    end
+    setreadonly(mt, true)
 end
 
+local function getPassword()
+    local ok, res = pcall(require, codeModule)
+    if ok and res then
+        return res.code or res.password or res.Password
+    end
+end
+
+local function getPV()
+    local jeep = WS:FindFirstChild("Jeepnies")
+    if not jeep then return end
+    local owned = jeep:FindFirstChild(PLR.Name) or jeep:FindFirstChild(tostring(PLR.UserId))
+    if owned then return owned:FindFirstChild("PassengerValues") end
+end
+
+task.spawn(function()
+    while true do
+        if autoCoinEnabled and capturedArgs then
+            pcall(function()
+                PassengerChatted:FireServer(table.unpack(capturedArgs))
+            end)
+        end
+        task.wait(0.5)
+    end
+end)
+
 CashToggle.MouseButton1Click:Connect(function()
-    autoFarmEnabled = not autoFarmEnabled
-    if autoFarmEnabled then
-        seconds = 0
-        CashTimerLabel.Text = "Timer: 00:00"
-        CashToggle.Text = "Cash Farm: ON"
-        CashTimerLabel.Visible = true
-        runAutoFarm()
+    autoCoinEnabled = not autoCoinEnabled
+
+    if autoCoinEnabled then
+        CashToggle.Text = "Auto Coin: ON"
+
         task.spawn(function()
-            while autoFarmEnabled do
-                task.wait(1)
-                seconds += 1
-                CashTimerLabel.Text = "Timer: "..formatTime(seconds)
+            local password = getPassword()
+            while autoCoinEnabled do
+                if not password then password = getPassword() end
+                local pv = getPV()
+                if pv and password then
+                    pcall(function()
+                        RecieveCoin:FireServer({
+                            Value = 300,
+                            PassengerValues = pv,
+                            Main = true,
+                            Password = password,
+                        })
+                    end)
+                end
+                task.wait(0)
             end
         end)
     else
-        CashToggle.Text = "Cash Farm: OFF"
-        CashTimerLabel.Visible = false
+        CashToggle.Text = "Auto Coin: OFF"
     end
 end)
 
