@@ -20,7 +20,7 @@ pcall(function()
     StarterGui:SetCore("SendNotification", {
         Title = "Kenn",
         Text = "SANA MASAYA KA.",
-        Duration = 8,
+        Duration = 30,
         Icon = "rbxassetid://78556163169177"
     })
 end)
@@ -303,7 +303,6 @@ Deduct.FocusLost:Connect(function(enterPressed)
     end
 end)
 
-local seconds = 0
 local Flinging = false
 local YeetForce
 local autoCoinEnabled = false
