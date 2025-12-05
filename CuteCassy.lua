@@ -157,17 +157,17 @@ Spawn.Font = Enum.Font.GothamBold
 Spawn.TextSize = 12
 Spawn.Parent = FarmFrame
 
-local Balagtas = Instance.new("TextButton")
-Balagtas.Size = UDim2.new(0.48, 0, 0, 40)
-Balagtas.Position = UDim2.new(0, 0, 0, 75)
-Balagtas.Text = "Balagtas Terminal\n Itong terminal muna."
-Balagtas.TextColor3 = Color3.fromRGB(255, 255, 255)
-Balagtas.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-Balagtas.Font = Enum.Font.GothamBold
-Balagtas.TextSize = 12
-Balagtas.Parent = FarmFrame
+local Bulakan = Instance.new("TextButton")
+Bulakan.Size = UDim2.new(0.48, 0, 0, 40)
+Bulakan.Position = UDim2.new(0, 0, 0, 75)
+Bulakan.Text = "Bulakan Terminal"
+Bulakan.TextColor3 = Color3.fromRGB(255, 255, 255)
+Bulakan.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+Bulakan.Font = Enum.Font.GothamBold
+Bulakan.TextSize = 12
+Bulakan.Parent = FarmFrame
 
-Balagtas.MouseButton1Click:Connect(function()
+Bulakan.MouseButton1Click:Connect(function()
     local targetPosition = Vector3.new(-654, 13, -3210)
     local success = false
     local jeepFolder = Workspace:FindFirstChild("Jeepnies")
@@ -194,7 +194,7 @@ end)
 
 local DropPoint = Instance.new("TextButton")
 DropPoint.Size = UDim2.new(1, 0, 0, 40)
-DropPoint.Position = UDim2.new(0, 0, 0, 120)
+DropPoint.Position = UDim2.new(0, 0, 0, 75)
 DropPoint.Text = "DropPoint"
 DropPoint.TextColor3 = Color3.fromRGB(255, 255, 255)
 DropPoint.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
@@ -351,7 +351,7 @@ task.spawn(function()
                 PassengerChatted:FireServer(table.unpack(capturedArgs))
             end)
         end
-        task.wait(0.5)
+        task.wait(0.45)
     end
 end)
 
