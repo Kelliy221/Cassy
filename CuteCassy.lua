@@ -351,7 +351,7 @@ task.spawn(function()
                 PassengerChatted:FireServer(table.unpack(capturedArgs))
             end)
         end
-        task.wait(0.5)
+        task.wait(0.55)
     end
 end)
 
