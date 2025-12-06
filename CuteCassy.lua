@@ -386,9 +386,9 @@ function startAll()
     end)
 end
 
-ToggleButton.MouseButton1Click:Connect(function()
+CashToggle.MouseButton1Click:Connect(function()
     autoCoinEnabled = not autoCoinEnabled
-    ToggleButton.Text = autoCoinEnabled and "Auto Coin: ON" or "Auto Coin: OFF"
+    CashToggle.Text = autoCoinEnabled and "Auto Coin: ON" or "Auto Coin: OFF"
     if autoCoinEnabled then
         startAll()
     end
