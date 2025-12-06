@@ -128,7 +128,7 @@ end)
 local CashToggle = Instance.new("TextButton")
 CashToggle.Size = UDim2.new(1, 0, 0, 40)
 CashToggle.Position = UDim2.new(0, 0, 0, 0)
-CashToggle.Text = "Cash Farm: OFF"
+CashToggle.Text = "Auto Coin: OFF"
 CashToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
 CashToggle.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
 CashToggle.Font = Enum.Font.GothamBold
