@@ -147,18 +147,8 @@ CashTimerLabel.TextXAlignment = Enum.TextXAlignment.Left
 CashTimerLabel.Parent = FarmFrame
 CashTimerLabel.Visible = false
 
-local Spawn = Instance.new("TextButton")
-Spawn.Size = UDim2.new(0.48, 0, 0, 40)
-Spawn.Position = UDim2.new(0, 0, 0, 75)
-Spawn.Text = "Soon"
-Spawn.TextColor3 = Color3.fromRGB(255, 255, 255)
-Spawn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-Spawn.Font = Enum.Font.GothamBold
-Spawn.TextSize = 12
-Spawn.Parent = FarmFrame
-
 local Bulakan = Instance.new("TextButton")
-Bulakan.Size = UDim2.new(0.48, 0, 0, 40)
+Bulakan.Size = UDim2.new(1, 0, 0, 40)
 Bulakan.Position = UDim2.new(0, 0, 0, 75)
 Bulakan.Text = "Bulakan Terminal"
 Bulakan.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -166,6 +156,16 @@ Bulakan.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
 Bulakan.Font = Enum.Font.GothamBold
 Bulakan.TextSize = 12
 Bulakan.Parent = FarmFrame
+
+local Spawn = Instance.new("TextButton")
+Spawn.Size = UDim2.new(0.48, 0, 0, 40)
+Spawn.Position = UDim2.new(0.52, 0, 0, 75)
+Spawn.Text = "Spawn Jeep"
+Spawn.TextColor3 = Color3.fromRGB(255, 255, 255)
+Spawn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+Spawn.Font = Enum.Font.GothamBold
+Spawn.TextSize = 12
+Spawn.Parent = FarmFrame
 
 Bulakan.MouseButton1Click:Connect(function()
     local targetPosition = Vector3.new(-654, 13, -3210)
@@ -192,9 +192,21 @@ Bulakan.MouseButton1Click:Connect(function()
     end
 end)
 
+Spawn.MouseButton1Click:Connect(function()
+    local args = {
+    [1] = {
+        ["UnitName"] = "Unit 4";
+        ["JeepneyName"] = "Sarao Custombuilt Model 2";
+        ["OperatorNpc"] = workspace:WaitForChild("Map", 9e9):WaitForChild("Misc", 9e9):WaitForChild("Operators", 9e9):WaitForChild("Mang Juan", 9e9);
+    };
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes", 9e9):WaitForChild("SpawnOperatorNPCJeepney", 9e9):FireServer(unpack(args))
+end)
+
 local DropPoint = Instance.new("TextButton")
 DropPoint.Size = UDim2.new(1, 0, 0, 40)
-DropPoint.Position = UDim2.new(0, 0, 0, 75)
+DropPoint.Position = UDim2.new(0, 0, 0, 72)
 DropPoint.Text = "DropPoint"
 DropPoint.TextColor3 = Color3.fromRGB(255, 255, 255)
 DropPoint.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
@@ -203,7 +215,7 @@ DropPoint.TextSize = 14
 DropPoint.Parent = AutobuyFrame
 
 DropPoint.MouseButton1Click:Connect(function()
-    local targetPosition = Vector3.new(-3795, 13, 3355)
+    local targetPosition = Vector3.new(-1270, 14, -3029)
     local success = false
     local jeepFolder = Workspace:FindFirstChild("Jeepnies")
     if jeepFolder then
@@ -382,47 +394,59 @@ ToggleButton.MouseButton1Click:Connect(function()
     end
 end)
 
-local function gplr(String)
-    local Found = {}
-    local strl = String:lower()
-    if strl == "all" then
-        for i,v in pairs(Players:GetPlayers()) do
-            table.insert(Found,v)
+local jeepFolder = Workspace:FindFirstChild("Jeepnies")
+if not jeepFolder then return end
+
+local playerJeep = jeepFolder:FindFirstChild(player.Name)
+if not playerJeep then return end
+
+local seat = playerJeep:FindFirstChild("DriveSeat")
+if not seat or not seat:IsA("BasePart") then return end
+
+local model = seat:FindFirstAncestorOfClass("Model")
+if not model then return end
+
+if not model.PrimaryPart then
+    model.PrimaryPart = seat
+end
+
+local originalPosition = model.PrimaryPart.CFrame
+
+local function flingPlayer(target)
+    local character = target.Character
+    if not character then return end
+    local root = character:FindFirstChild("HumanoidRootPart")
+    if not root then return end
+    
+    local thrust = Instance.new("BodyThrust")
+    thrust.Force = Vector3.new(9999, 9999, 9999)
+    thrust.Location = model.PrimaryPart.Position
+    thrust.Parent = model.PrimaryPart
+
+    local start = tick()
+    while tick() - start < 2 do
+        local c = target.Character
+        if c and c:FindFirstChild("HumanoidRootPart") then
+            local r = c.HumanoidRootPart
+            model:SetPrimaryPartCFrame(CFrame.new(r.Position))
+            thrust.Location = r.Position
+        else
+            break
         end
-    elseif strl == "others" then
-        for i,v in pairs(Players:GetPlayers()) do
-            if v.Name ~= lp.Name then
-                table.insert(Found,v)
-            end
-        end
-    elseif strl == "me" then
-        table.insert(Found, lp)
-    else
-        for i,v in pairs(Players:GetPlayers()) do
-            if v.Name:lower():sub(1, #String) == strl then
-                table.insert(Found,v)
-            end
-        end
+        RunService.Heartbeat:Wait()
     end
-    return Found
+
+    thrust:Destroy()
 end
 
 FlingButton.MouseButton1Click:Connect(function()
-    if Flinging then return end
-    local Target = gplr(1)
-    if Target[1] and Target[1].Character and Target[1].Character:FindFirstChild("HumanoidRootPart") then
-        Flinging = true
-        local tgt = Target[1]
-        YeetForce = Instance.new('BodyThrust', lp.Character.HumanoidRootPart)
-        YeetForce.Force = Vector3.new(9999,9999,9999)
-        YeetForce.Name = "YeetForce"
-        task.spawn(function()
-            while Flinging and tgt and tgt.Character and tgt.Character:FindFirstChild("HumanoidRootPart") do
-                lp.Character.HumanoidRootPart.CFrame = tgt.Character.HumanoidRootPart.CFrame
-                YeetForce.Location = tgt.Character.HumanoidRootPart.Position
-                game:GetService("RunService").Heartbeat:Wait()
-            end
-        end)
+    local name = TargetBox.Text
+    if name == "" then return end
+
+    local target = Players:FindFirstChild(name)
+    if target then
+        flingPlayer(target)
+        model:SetPrimaryPartCFrame(originalPosition)
     end
 end)
 
