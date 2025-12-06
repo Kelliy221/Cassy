@@ -215,7 +215,7 @@ DropPoint.TextSize = 14
 DropPoint.Parent = AutobuyFrame
 
 DropPoint.MouseButton1Click:Connect(function()
-    local targetPosition = Vector3.new(-1270, 14, -3029)
+    local targetPosition = Vector3.new(1023, 13, 3185)
     local success = false
     local jeepFolder = Workspace:FindFirstChild("Jeepnies")
     if jeepFolder then
