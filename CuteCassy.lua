@@ -20,8 +20,17 @@ pcall(function()
     StarterGui:SetCore("SendNotification", {
         Title = "Kenn",
         Text = "SANA MASAYA KA.",
-        Duration = 30,
+        Duration = 300,
         Icon = "rbxassetid://78556163169177"
+    })
+end)
+
+pcall(function()
+    StarterGui:SetCore("SendNotification", {
+        Title = "Cars",
+        Text = "hmmm",
+        Duration = 20,
+        Icon = "rbxassetid://138404555778635"
     })
 end)
 
