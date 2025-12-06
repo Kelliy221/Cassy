@@ -180,7 +180,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("Remotes", 9e9):WaitForChild("
 end)
 
 Bulakan.MouseButton1Click:Connect(function()
-    local targetPosition = Vector3.new(-654, 13, -3210)
+    local targetPosition = Vector3.new(-132, 13, -3013)
     local success = false
     local jeepFolder = Workspace:FindFirstChild("Jeepnies")
     if jeepFolder then
