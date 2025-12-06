@@ -135,6 +135,16 @@ CashToggle.Font = Enum.Font.GothamBold
 CashToggle.TextSize = 14
 CashToggle.Parent = FarmFrame
 
+local Spawn = Instance.new("TextButton")
+Spawn.Size = UDim2.new(1, 0, 0, 40)
+Spawn.Position = UDim2.new(0, 0, 0, 45)
+Spawn.Text = "Spawn Jeep"
+Spawn.TextColor3 = Color3.fromRGB(255, 255, 255)
+Spawn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+Spawn.Font = Enum.Font.GothamBold
+Spawn.TextSize = 12
+Spawn.Parent = FarmFrame
+
 local CashTimerLabel = Instance.new("TextLabel")
 CashTimerLabel.Size = UDim2.new(1, 0, 0, 25)
 CashTimerLabel.Position = UDim2.new(0, 0, 0, 45)
@@ -157,15 +167,17 @@ Bulakan.Font = Enum.Font.GothamBold
 Bulakan.TextSize = 12
 Bulakan.Parent = FarmFrame
 
-local Spawn = Instance.new("TextButton")
-Spawn.Size = UDim2.new(0.48, 0, 0, 40)
-Spawn.Position = UDim2.new(0.52, 0, 0, 75)
-Spawn.Text = "Spawn Jeep"
-Spawn.TextColor3 = Color3.fromRGB(255, 255, 255)
-Spawn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-Spawn.Font = Enum.Font.GothamBold
-Spawn.TextSize = 12
-Spawn.Parent = FarmFrame
+Spawn.MouseButton1Click:Connect(function()
+    local args = {
+    [1] = {
+        ["UnitName"] = "Unit 4";
+        ["JeepneyName"] = "Sarao Custombuilt Model 2";
+        ["OperatorNpc"] = workspace:WaitForChild("Map", 9e9):WaitForChild("Misc", 9e9):WaitForChild("Operators", 9e9):WaitForChild("Mang Juan", 9e9);
+    };
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes", 9e9):WaitForChild("SpawnOperatorNPCJeepney", 9e9):FireServer(unpack(args))
+end)
 
 Bulakan.MouseButton1Click:Connect(function()
     local targetPosition = Vector3.new(-654, 13, -3210)
@@ -190,18 +202,6 @@ Bulakan.MouseButton1Click:Connect(function()
     if not success then
         warn("Sakay muna Jeep")
     end
-end)
-
-Spawn.MouseButton1Click:Connect(function()
-    local args = {
-    [1] = {
-        ["UnitName"] = "Unit 4";
-        ["JeepneyName"] = "Sarao Custombuilt Model 2";
-        ["OperatorNpc"] = workspace:WaitForChild("Map", 9e9):WaitForChild("Misc", 9e9):WaitForChild("Operators", 9e9):WaitForChild("Mang Juan", 9e9);
-    };
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("Remotes", 9e9):WaitForChild("SpawnOperatorNPCJeepney", 9e9):FireServer(unpack(args))
 end)
 
 local DropPoint = Instance.new("TextButton")
