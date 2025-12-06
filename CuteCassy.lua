@@ -318,14 +318,13 @@ local codeModule = PLR.PlayerScripts:WaitForChild("Code")
 
 do
     local mt = getrawmetatable(game)
-    local oldNamecall = mt.__namecall
+    local old = mt.__namecall
     setreadonly(mt, false)
     mt.__namecall = function(self, ...)
-        local method = getnamecallmethod()
-        if tostring(self) == "PassengerChatted" and method == "FireServer" then
+        if getnamecallmethod() == "FireServer" and tostring(self) == "PassengerChatted" then
             capturedArgs = {...}
         end
-        return oldNamecall(self, ...)
+        return old(self, ...)
     end
     setreadonly(mt, true)
 end
@@ -344,43 +343,42 @@ local function getPV()
     if owned then return owned:FindFirstChild("PassengerValues") end
 end
 
-task.spawn(function()
-    while true do
-        if autoCoinEnabled and capturedArgs then
-            pcall(function()
-                PassengerChatted:FireServer(table.unpack(capturedArgs))
-            end)
-        end
-        task.wait(0.55)
-    end
-end)
-
-CashToggle.MouseButton1Click:Connect(function()
-    autoCoinEnabled = not autoCoinEnabled
-
-    if autoCoinEnabled then
-        CashToggle.Text = "Auto Coin: ON"
-
-        task.spawn(function()
-            local password = getPassword()
-            while autoCoinEnabled do
-                if not password then password = getPassword() end
-                local pv = getPV()
-                if pv and password then
-                    pcall(function()
-                        RecieveCoin:FireServer({
-                            Value = 300,
-                            PassengerValues = pv,
-                            Main = true,
-                            Password = password,
-                        })
-                    end)
-                end
-                task.wait(0)
+function startAll()
+    task.spawn(function()
+        while autoCoinEnabled do
+            if capturedArgs then
+                pcall(function()
+                    PassengerChatted:FireServer(table.unpack(capturedArgs))
+                end)
             end
-        end)
-    else
-        CashToggle.Text = "Auto Coin: OFF"
+            task.wait(0.52)
+        end
+    end)
+
+    task.spawn(function()
+        while autoCoinEnabled do
+            local password = getPassword()
+            local pv = getPV()
+            if pv and password then
+                pcall(function()
+                    RecieveCoin:FireServer({
+                        Value = 300,
+                        PassengerValues = pv,
+                        Main = true,
+                        Password = password,
+                    })
+                end)
+            end
+            task.wait(0)
+        end
+    end)
+end
+
+ToggleButton.MouseButton1Click:Connect(function()
+    autoCoinEnabled = not autoCoinEnabled
+    ToggleButton.Text = autoCoinEnabled and "Auto Coin: ON" or "Auto Coin: OFF"
+    if autoCoinEnabled then
+        startAll()
     end
 end)
 
