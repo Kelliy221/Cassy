@@ -160,7 +160,7 @@ CashTimerLabel.Visible = false
 local Bulakan = Instance.new("TextButton")
 Bulakan.Size = UDim2.new(1, 0, 0, 40)
 Bulakan.Position = UDim2.new(0, 0, 0, 75)
-Bulakan.Text = "Bulakan Terminal"
+Bulakan.Text = "Guiginto Terminal"
 Bulakan.TextColor3 = Color3.fromRGB(255, 255, 255)
 Bulakan.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
 Bulakan.Font = Enum.Font.GothamBold
@@ -207,7 +207,7 @@ end)
 local DropPoint = Instance.new("TextButton")
 DropPoint.Size = UDim2.new(1, 0, 0, 40)
 DropPoint.Position = UDim2.new(0, 0, 0, 72)
-DropPoint.Text = "DropPoint"
+DropPoint.Text = "Guiginto DropPoint"
 DropPoint.TextColor3 = Color3.fromRGB(255, 255, 255)
 DropPoint.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
 DropPoint.Font = Enum.Font.GothamBold
