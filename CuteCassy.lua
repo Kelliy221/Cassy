@@ -383,7 +383,7 @@ function startAll()
             if pv and password then
                 pcall(function()
                     RecieveCoin:FireServer({
-                        Value = 375,
+                        Value = 300,
                         PassengerValues = pv,
                         Main = true,
                         Password = password,
