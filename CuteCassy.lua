@@ -169,7 +169,7 @@ CashTimerLabel.Visible = false
 local Bulakan = Instance.new("TextButton")
 Bulakan.Size = UDim2.new(1, 0, 0, 40)
 Bulakan.Position = UDim2.new(0, 0, 0, 75)
-Bulakan.Text = "Guiginto Terminal"
+Bulakan.Text = "Bulakan Terminal"
 Bulakan.TextColor3 = Color3.fromRGB(255, 255, 255)
 Bulakan.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
 Bulakan.Font = Enum.Font.GothamBold
@@ -189,7 +189,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("Remotes", 9e9):WaitForChild("
 end)
 
 Bulakan.MouseButton1Click:Connect(function()
-    local targetPosition = Vector3.new(-132, 13, -3013)
+    local targetPosition = Vector3.new(-654, 13, -3210)
     local success = false
     local jeepFolder = Workspace:FindFirstChild("Jeepnies")
     if jeepFolder then
